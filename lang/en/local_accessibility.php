@@ -26,3 +26,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Accessibility';
+
+$string['accessibilityoptions'] = 'Accessibility Options';
+
+$string['subplugintype_accessibility'] = 'Accessibility Option';
+$string['subplugintype_accessibility_plural'] = 'Accessibility Options';
+
+$string['option'] = 'Option';
+$string['manageenabledoptions'] = 'Manage Enabled Options';
+$string['addoption'] = 'Add option';
+
+$string['reset'] = 'Reset';

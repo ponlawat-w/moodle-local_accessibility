@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/accessibility/db" VERSION="20230505" COMMENT="XMLDB file for Moodle local/accessibility"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="accessibility_enabledoptions" COMMENT="Enabled accessibility options">
+      <FIELDS>
+        <FIELD NAME="id" SEQUENCE="true" TYPE="int" LENGTH="11" NOTNULL="true" />
+        <FIELD NAME="name" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" />
+        <FIELD NAME="sequence" SEQUENCE="false" TYPE="int" LENGTH="11" NOTNULL="true" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="pk_id" TYPE="primary" FIELDS="id" />
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_name" UNIQUE="true" FIELDS="name" />
+        <INDEX NAME="idx_sequence" UNIQUE="false" FIELDS="sequence" />
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="accessibility_userconfigs" COMMENT="Saved configuration values of users">
+      <FIELDS>
+        <FIELD NAME="id" SEQUENCE="true" TYPE="int" LENGTH="11" NOTNULL="true" />
+        <FIELD NAME="optionname" SEQUENCE="false" TYPE="char" LENGTH="255" NOTNULL="true" />
+        <FIELD NAME="userid" SEQUENCE="false" TYPE="int" LENGTH="11" NOTNULL="true" />
+        <FIELD NAME="configvalue" SEQUENCE="false" TYPE="text" NOTNULL="true" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="pk_id" TYPE="primary" FIELDS="id" />
+        <KEY NAME="fk_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" />
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_optionname" UNIQUE="false" FIELDS="optionname" />
+        <INDEX NAME="idx_userid" UNIQUE="false" FIELDS="userid" />
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

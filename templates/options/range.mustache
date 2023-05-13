@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col-1 px-0">
+            <button type="button" class="btn btn-light text-center" id="{{name}}-btndown">
+                -
+            </button>
+        </div>
+        <div class="col-8 px-1 py-2">
+            <input type="range" class="form-range w-100" min="{{min}}" max="{{max}}" step="{{step}}" id="{{name}}-input" value="{{default}}"
+                data-default="{{default}}">
+        </div>
+        <div class="col-2 px-2 py-2" id="{{name}}-label">
+            {{default}}
+        </div>
+        <div class="col-1 px-0">
+            <button type="button" class="btn btn-light text-center" id="{{name}}-btnup">
+                +
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <button type="button" class="w-100 btn btn-sm btn-light" id="{{name}}-btnreset">
+                {{#str}} reset, local_accessibility {{/str}}
+            </button>
+        </div>
+    </div>
+</div>

@@ -15,20 +15,17 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Code to be executed after the plugin's database scheme has been installed is defined here.
+ * Plugin version and other meta-data are defined here.
  *
- * @package     local_accessibility
- * @category    upgrade
+ * @package     accessibility_fontface
  * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Custom code to be run on installing the plugin.
- */
-function xmldb_local_accessibility_install() {
-
-    return true;
-}
+$plugin->component = 'accessibility_fontface';
+$plugin->release = '0.0.0';
+$plugin->version = 2023051300;
+$plugin->requires = 2022041900;
+$plugin->maturity = MATURITY_ALPHA;

@@ -1,0 +1,23 @@
+<div class="local-accessibility-panel border-primary p-0 card col-10 col-lg-8">
+    <div class="card-header bg-primary text-light">
+        <i class="fa fa-universal-access"></i>
+        {{#str}} pluginname, local_accessibility {{/str}}
+        <a href="javascript:void(0);" id="local-accessibility-closebtn" class="float-right text-light text-decoration-none">
+            <i class="fa fa-times"></i>
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                {{#options}}
+                    <div class="{{class}} card">
+                        <div class="card-body {{name}}-container">
+                            <p><strong>{{title}}</strong></p>
+                            {{{content}}}
+                        </div>
+                    </div>
+                {{/options}}
+            </div>
+        </div>
+    </div>
+</div>

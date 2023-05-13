@@ -1,0 +1,38 @@
+.local-accessibility-buttoncontainer {
+    position: fixed;
+    bottom: 5rem;
+    right: 2rem;
+}
+
+#page.drawers.show-drawer-right .local-accessibility-buttoncontainer {
+    right: calc(315px + 2rem);
+}
+
+#local-accessibility-buttoncontainer button {
+    font-size: 16px;
+    width: 36px;
+    height: 36px;
+    line-height: 16px;
+    padding: 0;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.local-accessibility-panel {
+    display: none;
+    position: fixed;
+    bottom: 8rem;
+    right: 2rem;
+    z-index: 1040;
+    box-shadow: 0 0 5px #000;
+}
+
+.local-accessibility-panel > .card-body {
+    min-height: 250px;
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+}
+
+.local-accessibility-panel .card-header {
+    border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0;
+}

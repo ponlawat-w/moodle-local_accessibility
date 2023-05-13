@@ -32,14 +32,26 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_local_accessibility_upgrade($oldversion) {
-    global $DB;
+    /**
+     * @var \moodle_database $DB
+     */
+    global $DB, $CFG;
 
     $dbman = $DB->get_manager();
 
-    // For further information please read {@link https://docs.moodle.org/dev/Upgrade_API}.
-    //
-    // You will also have to create the db/install.xml file by using the XMLDB Editor.
-    // Documentation for the XMLDB Editor can be found at {@link https://docs.moodle.org/dev/XMLDB_editor}.
+    $dbxmlpath = $CFG->dirroot . '/local/accessibility/db/install.xml';
+
+    if ($oldversion < 2023050600) {
+        $dbman->install_from_xmldb_file($dbxmlpath);
+        upgrade_plugin_savepoint(true, 2023050600, 'local', 'accessibility');
+    }
+    if ($oldversion < 2023051302) {
+        $DB->delete_records('accessibility_userconfigs', []);
+        if (!$dbman->table_exists('accessibility_enabledoptions')) {
+            $dbman->install_one_table_from_xmldb_file($dbxmlpath, 'accessibility_enabledoptions');
+        }
+        upgrade_plugin_savepoint(true, 2023051302, 'local', 'accessibility');
+    }
 
     return true;
 }

@@ -24,3 +24,13 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+
+/**
+ * @var admin_root $ADMIN
+ */
+if ($hassiteconfig) {
+    $ADMIN->add('modules', new admin_category('accessibilityoptions', get_string('accessibilityoptions', 'local_accessibility')));
+    $url = new moodle_url('/local/accessibility/admin/manageenabledoptions.php');
+    $settings = new admin_externalpage('local_accessibility', get_string('manageenabledoptions', 'local_accessibility'), $url);
+    $ADMIN->add('accessibilityoptions', $settings);
+}
