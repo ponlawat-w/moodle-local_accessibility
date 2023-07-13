@@ -1,13 +1,13 @@
 <?php
 
-require_once(__DIR__ . '/classes/optionbase.php');
-require_once(__DIR__ . '/classes/optionrange.php');
-require_once(__DIR__ . '/classes/optioncolour.php');
+require_once(__DIR__ . '/classes/widgetbase.php');
+require_once(__DIR__ . '/classes/rangewidget.php');
+require_once(__DIR__ . '/classes/colourwidget.php');
 
 /**
  * @return string[]
  */
-function local_accessibility_getinstalledoptionnames() {
+function local_accessibility_getinstalledwidgetnames() {
     $pluginmanager = core_plugin_manager::instance();
     $plugins = $pluginmanager->get_plugins_of_type('accessibility');
     return array_map(function($x) { return $x->name; }, $plugins);
@@ -16,19 +16,19 @@ function local_accessibility_getinstalledoptionnames() {
 /**
  * @return stdClass[]
  */
-function local_accessibility_getenabledoptions() {
+function local_accessibility_getenabledwidgets() {
     /**
      * @var moodle_database $DB
      */
     global $DB;
-    return $DB->get_records('accessibility_enabledoptions', [], 'sequence ASC');
+    return $DB->get_records('accessibility_enabledwidgets', [], 'sequence ASC');
 }
 
 /**
  * @return string[]
  */
-function local_accessibility_getenabledoptionnames() {
-    return array_map(function($record) { return $record->name; }, local_accessibility_getenabledoptions());
+function local_accessibility_getenabledwidgetnames() {
+    return array_map(function($record) { return $record->name; }, local_accessibility_getenabledwidgets());
 }
 
 function local_accessibility_resequence() {
@@ -36,97 +36,97 @@ function local_accessibility_resequence() {
      * @var moodle_database $DB
      */
     global $DB;
-    $options = local_accessibility_getenabledoptions();
+    $widgets = local_accessibility_getenabledwidgets();
     $i = 1;
-    foreach ($options as $option) {
-        $option->sequence = $i++;
-        $DB->update_record('accessibility_enabledoptions', $option);
+    foreach ($widgets as $widget) {
+        $widget->sequence = $i++;
+        $DB->update_record('accessibility_enabledwidgets', $widget);
     }
 }
 
-function local_accessibility_enableoption($optionname) {
+function local_accessibility_enablewidget($widgetname) {
     /**
      * @var moodle_database $DB
      */
     global $DB;
-    if (!in_array($optionname, local_accessibility_getinstalledoptionnames())) {
-        throw new moodle_exception("Option name {$optionname} is not installed");
+    if (!in_array($widgetname, local_accessibility_getinstalledwidgetnames())) {
+        throw new moodle_exception("widget name {$widgetname} is not installed");
     }
-    if ($DB->record_exists('accessibility_enabledoptions', ['name' => $optionname])) {
-        throw new moodle_exception("Option {$optionname} is already enabled");
+    if ($DB->record_exists('accessibility_enabledwidgets', ['name' => $widgetname])) {
+        throw new moodle_exception("widget {$widgetname} is already enabled");
     }
-    $maxsequencerecord = $DB->get_record_sql('SELECT sequence FROM {accessibility_enabledoptions} ORDER BY sequence DESC LIMIT 1');
+    $maxsequencerecord = $DB->get_record_sql('SELECT sequence FROM {accessibility_enabledwidgets} ORDER BY sequence DESC LIMIT 1');
     $record = new stdClass();
-    $record->name = $optionname;
+    $record->name = $widgetname;
     $record->sequence = $maxsequencerecord ? $maxsequencerecord->sequence + 1 : 1;
-    return $DB->insert_record('accessibility_enabledoptions', $record);
+    return $DB->insert_record('accessibility_enabledwidgets', $record);
 }
 
-function local_accessibility_disableoption($optionname) {
+function local_accessibility_disablewidget($widgetname) {
     /**
      * @var moodle_database $DB
      */
     global $DB;
-    $DB->delete_records('accessibility_enabledoptions', ['name' => $optionname]);
-    $DB->delete_records('accessibility_userconfigs', ['optionname' => $optionname]);
+    $DB->delete_records('accessibility_enabledwidgets', ['name' => $widgetname]);
+    $DB->delete_records('accessibility_userconfigs', ['widget' => $widgetname]);
     return local_accessibility_resequence();
 }
 
-function local_accessibility_swapsequence($option1, $option2) {
+function local_accessibility_swapsequence($widget1, $widget2) {
     /**
      * @var moodle_database $DB
      */
     global $DB;
-    $temp = $option1->sequence;
-    $option1->sequence = $option2->sequence;
-    $option2->sequence = $temp;
-    return $DB->update_record('accessibility_enabledoptions', $option1) && $DB->update_record('accessibility_enabledoptions', $option2);
+    $temp = $widget1->sequence;
+    $widget1->sequence = $widget2->sequence;
+    $widget2->sequence = $temp;
+    return $DB->update_record('accessibility_enabledwidgets', $widget1) && $DB->update_record('accessibility_enabledwidgets', $widget2);
 }
 
-function local_accessibility_moveup($option) {
+function local_accessibility_moveup($widget) {
     /**
      * @var moodle_database $DB
      */
     global $DB;
-    $previousoption = $DB->get_record_sql('SELECT * FROM {accessibility_enabledoptions} WHERE sequence < ? ORDER BY sequence DESC LIMIT 1', [$option->sequence]);
-    if (!$previousoption) {
+    $previouswidget = $DB->get_record_sql('SELECT * FROM {accessibility_enabledwidgets} WHERE sequence < ? ORDER BY sequence DESC LIMIT 1', [$widget->sequence]);
+    if (!$previouswidget) {
         return;
     }
-    local_accessibility_swapsequence($option, $previousoption);
+    local_accessibility_swapsequence($widget, $previouswidget);
 }
 
-function local_accessibility_movedown($option) {
+function local_accessibility_movedown($widget) {
     /**
      * @var moodle_database $DB
      */
     global $DB;
-    $nextoption = $DB->get_record_sql('SELECT * FROM {accessibility_enabledoptions} WHERE sequence > ? ORDER BY sequence ASC LIMIT 1', [$option->sequence]);
-    if (!$nextoption) {
+    $nextwidget = $DB->get_record_sql('SELECT * FROM {accessibility_enabledwidgets} WHERE sequence > ? ORDER BY sequence ASC LIMIT 1', [$widget->sequence]);
+    if (!$nextwidget) {
         return;
     }
-    local_accessibility_swapsequence($option, $nextoption);
+    local_accessibility_swapsequence($widget, $nextwidget);
 }
 
 /**
- * @return local_accessibility\options\optionbase[]
+ * @return local_accessibility\widgets\widgetbase[]
  */
-function local_accessibility_getoptioninstances() {
-    $enabledoptionnames = local_accessibility_getenabledoptionnames();
-    return array_map(function($name) { return local_accessibility_getoptioninstancebyname($name); }, $enabledoptionnames);
+function local_accessibility_getwidgetinstances() {
+    $enabledwidgetnames = local_accessibility_getenabledwidgetnames();
+    return array_map(function($name) { return local_accessibility_getwidgetinstancebyname($name); }, $enabledwidgetnames);
 }
 
 /**
- * @param string $optionname
- * @return local_accessibility\options\optionbase
+ * @param string $widgetname
+ * @return local_accessibility\widgets\widgetbase
  */
-function local_accessibility_getoptioninstancebyname($optionname) {
+function local_accessibility_getwidgetinstancebyname($widgetname) {
     global $CFG;
-    $filepath = "{$CFG->dirroot}/local/accessibility/options/{$optionname}/accessibility_{$optionname}.php";
+    $filepath = "{$CFG->dirroot}/local/accessibility/widgets/{$widgetname}/accessibility_{$widgetname}.php";
     if (!file_exists($filepath)) {
         throw new moodle_exception("File {$filepath} does not exist");
     }
     require_once($filepath);
-    $classname = 'local_accessibility\options\\' . $optionname;
+    $classname = 'local_accessibility\widgets\\' . $widgetname;
     if (!class_exists($classname)) {
         throw new moodle_exception("Class {$classname} does not exist in {$filepath}");
     }
@@ -138,13 +138,13 @@ function local_accessibility_before_http_headers() {
      * @var \moodle_page $PAGE
      */
     global $PAGE;
-    $optioninstances = local_accessibility_getoptioninstances();
-    if (!count($optioninstances)) {
+    $widgetinstances = local_accessibility_getwidgetinstances();
+    if (!count($widgetinstances)) {
         return;
     }
     $PAGE->requires->css('/local/accessibility/styles.css');
-    foreach ($optioninstances as $optioninstance) {
-        $optioninstance->init();
+    foreach ($widgetinstances as $widgetinstance) {
+        $widgetinstance->init();
     }
 }
 
@@ -155,8 +155,8 @@ function local_accessibility_before_footer() {
      */
     global $OUTPUT, $PAGE;
 
-    $optioninstances = local_accessibility_getoptioninstances();
-    if (!count($optioninstances)) {
+    $widgetinstances = local_accessibility_getwidgetinstances();
+    if (!count($widgetinstances)) {
         return '';
     }
     
@@ -164,16 +164,16 @@ function local_accessibility_before_footer() {
     
     $mainbutton = $OUTPUT->render_from_template('local_accessibility/mainbutton', null);
     
-    $options = [];
-    foreach ($optioninstances as $optioninstance) {
-        $options[] = [
-            'name' => $optioninstance->getname(),
-            'title' => $optioninstance->gettitle(),
-            'class' => $optioninstance->getclass(),
-            'content' => $optioninstance->getcontent()
+    $widgets = [];
+    foreach ($widgetinstances as $widgetinstance) {
+        $widgets[] = [
+            'name' => $widgetinstance->getname(),
+            'title' => $widgetinstance->gettitle(),
+            'class' => $widgetinstance->getclass(),
+            'content' => $widgetinstance->getcontent()
         ];
     }
-    $panel = $OUTPUT->render_from_template('local_accessibility/panel', ['options' => $options]);
+    $panel = $OUTPUT->render_from_template('local_accessibility/panel', ['widgets' => $widgets]);
 
     return $mainbutton . $panel;
 }

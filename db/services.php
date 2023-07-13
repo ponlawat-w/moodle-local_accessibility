@@ -3,9 +3,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = [
-    'local_accessibility_saveoptionconfig' => [
-        'classname' => 'local_accessibility\external\saveoptionconfig',
-        'description' => 'Save user option config',
+    'local_accessibility_savewidgetconfig' => [
+        'classname' => 'local_accessibility\external\savewidgetconfig',
+        'description' => 'Save user widget config',
         'type' => 'write',
         'ajax' => true,
         'services' => []
