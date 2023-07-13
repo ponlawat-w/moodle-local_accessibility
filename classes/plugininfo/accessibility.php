@@ -17,7 +17,7 @@ class accessibility extends base {
          */
         global $DB;
 
-        $DB->delete_records('accessibility_userconfigs', ['optionname' => $this->name]);
+        $DB->delete_records('accessibility_userconfigs', ['widget' => $this->name]);
 
         parent::uninstall_cleanup();
     }

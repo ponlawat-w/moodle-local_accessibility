@@ -17,14 +17,14 @@
 /**
  * Plugin version and other meta-data are defined here.
  *
- * @package     local_accessibility
+ * @package     accessibility_textcolour
  * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_accessibility';
+$plugin->component = 'accessibility_textcolour';
 $plugin->release = '0.0.0';
 $plugin->version = 2023071300;
 $plugin->requires = 2022041900;

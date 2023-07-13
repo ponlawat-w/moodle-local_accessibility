@@ -52,6 +52,16 @@ function xmldb_local_accessibility_upgrade($oldversion) {
         }
         upgrade_plugin_savepoint(true, 2023051302, 'local', 'accessibility');
     }
+    if ($oldversion < 2023071300) {
+        if ($dbman->table_exists('accessibility_enabledoptions')) {
+            $dbman->drop_table(new xmldb_table('accessibility_enabledoptions'));
+        }
+        if ($dbman->table_exists('accessibility_userconfigs')) {
+            $dbman->drop_table(new xmldb_table('accessibility_userconfigs'));
+        }
+        $dbman->install_from_xmldb_file($dbxmlpath);
+        upgrade_plugin_savepoint(true, 2023071300, 'local', 'accessibility');
+    }
 
     return true;
 }

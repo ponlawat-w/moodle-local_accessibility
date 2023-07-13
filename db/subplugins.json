@@ -1,5 +1,5 @@
 {
     "plugintypes": {
-        "accessibility": "local\/accessibility\/options"
+        "accessibility": "local\/accessibility\/widgets"
     }
 }

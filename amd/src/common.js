@@ -1,9 +1,9 @@
 import { call } from 'core/ajax';
 
-export const saveOptionConfig = (
-    optionname,
+export const saveWidgetConfig = (
+    widget,
     configvalue
 ) => call([{
-    methodname: 'local_accessibility_saveoptionconfig',
-    args: { optionname, configvalue }
+    methodname: 'local_accessibility_savewidgetconfig',
+    args: { widget, configvalue }
 }])[0];
