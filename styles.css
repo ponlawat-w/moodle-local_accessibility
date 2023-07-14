@@ -19,7 +19,7 @@ along with Moodle.  If not, see <https://www.gnu.org/licenses/>. */
  * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- .local-accessibility-buttoncontainer {
+.local-accessibility-buttoncontainer {
     position: fixed;
     bottom: 5rem;
     right: 2rem;
