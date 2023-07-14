@@ -1,8 +1,9 @@
 # Accessibility #
 
-TODO Describe the plugin shortly here.
+Accessibility plugin
 
-TODO Provide more detailed description here.
+This plugin requires subplugins (widgets) to be installed separatedly inside directory `widgets` of this plugin.
+After installing widget plugins, site administrator needs to enable widgets by going to _Site Administration > Plugins > Accessibility Widgets > Manage Enabled Widgets_.
 
 ## Installing via uploaded ZIP file ##
 

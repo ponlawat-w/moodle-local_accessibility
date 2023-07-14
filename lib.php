@@ -1,10 +1,35 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Plugin function library
+ *
+ * @package     local_accessibility
+ * @category    string
+ * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 require_once(__DIR__ . '/classes/widgetbase.php');
 require_once(__DIR__ . '/classes/rangewidget.php');
 require_once(__DIR__ . '/classes/colourwidget.php');
 
 /**
+ * Return names of installed widgets
+ * 
  * @return string[]
  */
 function local_accessibility_getinstalledwidgetnames() {
@@ -14,6 +39,8 @@ function local_accessibility_getinstalledwidgetnames() {
 }
 
 /**
+ * Return database records of enabled widgets
+ * 
  * @return stdClass[]
  */
 function local_accessibility_getenabledwidgets() {
@@ -25,12 +52,19 @@ function local_accessibility_getenabledwidgets() {
 }
 
 /**
+ * Return names of enabled widgets
+ * 
  * @return string[]
  */
 function local_accessibility_getenabledwidgetnames() {
     return array_map(function($record) { return $record->name; }, local_accessibility_getenabledwidgets());
 }
 
+/**
+ * Clean widget sequence from 1
+ *
+ * @return void
+ */
 function local_accessibility_resequence() {
     /**
      * @var moodle_database $DB
@@ -44,6 +78,12 @@ function local_accessibility_resequence() {
     }
 }
 
+/**
+ * Enable a widget
+ *
+ * @param string $widgetname
+ * @return void
+ */
 function local_accessibility_enablewidget($widgetname) {
     /**
      * @var moodle_database $DB
@@ -62,6 +102,12 @@ function local_accessibility_enablewidget($widgetname) {
     return $DB->insert_record('accessibility_enabledwidgets', $record);
 }
 
+/**
+ * Disable a widget
+ *
+ * @param string $widgetname
+ * @return void
+ */
 function local_accessibility_disablewidget($widgetname) {
     /**
      * @var moodle_database $DB
@@ -72,6 +118,13 @@ function local_accessibility_disablewidget($widgetname) {
     return local_accessibility_resequence();
 }
 
+/**
+ * Swap display sequence of two widgets
+ *
+ * @param stdClass $widget1 widget record
+ * @param stdClass $widget2 widget record
+ * @return void
+ */
 function local_accessibility_swapsequence($widget1, $widget2) {
     /**
      * @var moodle_database $DB
@@ -83,6 +136,12 @@ function local_accessibility_swapsequence($widget1, $widget2) {
     return $DB->update_record('accessibility_enabledwidgets', $widget1) && $DB->update_record('accessibility_enabledwidgets', $widget2);
 }
 
+/**
+ * Move widget sequence up
+ *
+ * @param stdClass $widget
+ * @return void
+ */
 function local_accessibility_moveup($widget) {
     /**
      * @var moodle_database $DB
@@ -95,6 +154,12 @@ function local_accessibility_moveup($widget) {
     local_accessibility_swapsequence($widget, $previouswidget);
 }
 
+/**
+ * Move widget sequence down
+ *
+ * @param stdClass $widget
+ * @return void
+ */
 function local_accessibility_movedown($widget) {
     /**
      * @var moodle_database $DB
@@ -108,6 +173,8 @@ function local_accessibility_movedown($widget) {
 }
 
 /**
+ * Get enabled widget instances
+ * 
  * @return local_accessibility\widgets\widgetbase[]
  */
 function local_accessibility_getwidgetinstances() {
@@ -116,6 +183,8 @@ function local_accessibility_getwidgetinstances() {
 }
 
 /**
+ * Get widget instance by name
+ * 
  * @param string $widgetname
  * @return local_accessibility\widgets\widgetbase
  */
@@ -133,6 +202,11 @@ function local_accessibility_getwidgetinstancebyname($widgetname) {
     return new $classname();
 }
 
+/**
+ * Injector of widget initialisation before rendering page
+ *
+ * @return void
+ */
 function local_accessibility_before_http_headers() {
     /**
      * @var \moodle_page $PAGE
@@ -148,6 +222,11 @@ function local_accessibility_before_http_headers() {
     }
 }
 
+/**
+ * Injector of widgets and panel initialisation before finish rendering page
+ *
+ * @return void
+ */
 function local_accessibility_before_footer() {
     /**
      * @var \core_renderer $OUTPUT

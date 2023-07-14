@@ -1,5 +1,34 @@
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Default script for range-selector widgets
+ *
+ * @module      local/accessibility
+ * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 import $ from 'jquery';
 
+/**
+ * Initialise JS for a range-selector widget
+ * @param {string} name widget name
+ * @param {(number) => void} callback callback function when value changed
+ * @param {string|number} userdefault default value of user
+ */
 export const initrangewidget = (name, callback, userdefault = undefined) => {
     const $inputrange = $(`#${name}-input`);
     const $label = $(`#${name}-label`);
