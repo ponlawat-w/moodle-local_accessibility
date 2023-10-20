@@ -2,8 +2,6 @@
 
 namespace local_accessibility\widgets;
 
-defined('MOODLE_INTERNAL') or die();
-
 abstract class rangewidget extends widgetbase {
     protected $min;
     protected $max;
