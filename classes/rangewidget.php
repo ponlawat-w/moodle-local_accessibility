@@ -24,8 +24,6 @@
 
 namespace local_accessibility\widgets;
 
-defined('MOODLE_INTERNAL') or die();
-
 /**
  * Abstract class of range-selector widgets
  */

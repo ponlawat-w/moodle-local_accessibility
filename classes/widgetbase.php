@@ -26,8 +26,6 @@ namespace local_accessibility\widgets;
 
 use stdClass;
 
-defined('MOODLE_INTERNAL') or die();
-
 /**
  * Base class for widgets
  */
@@ -117,7 +115,7 @@ abstract class widgetbase {
          * @var \moodle_database $DB
          */
         global $DB, $USER;
-        
+
         if (!$USER || !$USER->id) {
             return null;
         }
@@ -178,5 +176,5 @@ abstract class widgetbase {
      *
      * @return void
      */
-    public abstract function getcontent();
+    abstract public function getcontent();
 }
