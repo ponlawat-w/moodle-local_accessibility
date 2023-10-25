@@ -26,8 +26,6 @@ namespace local_accessibility\plugininfo;
 
 use core\plugininfo\base;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Accessibility widget plugin info class
  */
@@ -37,11 +35,9 @@ class accessibility extends base {
     }
 
     public function uninstall_cleanup() {
-        /**
-         * @var \moodle_database $DB
-         */
         global $DB;
 
+        /** @var \moodle_database $DB */
         $DB->delete_records('accessibility_userconfigs', ['widget' => $this->name]);
 
         parent::uninstall_cleanup();

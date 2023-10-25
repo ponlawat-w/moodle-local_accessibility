@@ -20,6 +20,8 @@
  * @package     local_accessibility
  * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @var core_renderer $OUTPUT
+ * @var moodle_database $DB
  */
 
 require_once(__DIR__ . '/../../../config.php');
@@ -28,11 +30,6 @@ admin_externalpage_setup('local_accessibility');
 
 require_once(__DIR__ . '/../lib.php');
 require_once(__DIR__ . '/../classes/admin/enablewidgetform.php');
-
-/**
- * @var core_renderer $OUTPUT
- * @var moodle_database $DB
- */
 
 $url = new moodle_url('/local/accessibility/admin/manageenabledwidgets.php');
 
@@ -79,7 +76,7 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('manageenabledwidgets', 'local_accessibility'));
 echo $OUTPUT->render_from_template('local_accessibility/admin/enabledwidgets', [
     'widgets' => $context,
-    'baseurl' => $url
+    'baseurl' => $url,
 ]);
 echo html_writer::start_tag('hr');
 $enablewidgetform->display();

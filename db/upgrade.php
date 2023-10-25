@@ -23,8 +23,6 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Execute local_accessibility upgrade from the given old version.
  *
@@ -32,10 +30,8 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_local_accessibility_upgrade($oldversion) {
-    /**
-     * @var \moodle_database $DB
-     */
     global $DB, $CFG;
+    /** @var \moodle_database $DB */ $DB;
 
     $dbman = $DB->get_manager();
 

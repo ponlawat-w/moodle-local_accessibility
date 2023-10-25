@@ -24,8 +24,6 @@
 
 namespace local_accessibility\widgets;
 
-defined('MOODLE_INTERNAL') or die();
-
 /**
  * Abstract class of colour-picker widgets
  */
@@ -33,11 +31,8 @@ abstract class colourwidget extends widgetbase {
     protected $class = 'col-12';
 
     public function getcontent() {
-        /**
-         * @var \core_renderer $OUTPUT
-         * @var \moodle_page $PAGE
-         */
         global $OUTPUT, $PAGE;
+        /** @var \core_renderer $OUTPUT */ $OUTPUT; /** @var \moodle_page $PAGE */ $PAGE;
         $id = $this->getfullname() . '-picker';
         $icon = new \pix_icon('i/loading', '', 'moodle', ['class' => 'loadingicon']);
         $PAGE->requires->js_init_call('M.util.init_colour_picker', [$id, true]);
@@ -49,7 +44,7 @@ abstract class colourwidget extends widgetbase {
             'icon' => $icon->export_for_template($OUTPUT),
             'haspreviewconfig' => false,
             'forceltr' => false,
-            'readonly' => false
+            'readonly' => false,
         ]);
     }
 }

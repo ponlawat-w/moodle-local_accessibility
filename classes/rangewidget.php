@@ -52,17 +52,15 @@ abstract class rangewidget extends widgetbase {
     }
 
     public function getcontent() {
-        /**
-         * @var \core_renderer $OUTPUT
-         */
         global $OUTPUT;
+        /** @var \core_renderer $OUTPUT */ $OUTPUT;
         return $OUTPUT->render_from_template('local_accessibility/widgets/range', [
             'title' => $this->title,
             'name' => $this->getfullname(),
             'min' => $this->min,
             'max' => $this->max,
             'step' => $this->step,
-            'default' => $this->default
+            'default' => $this->default,
         ]);
     }
 }

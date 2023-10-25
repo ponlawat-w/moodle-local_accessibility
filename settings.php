@@ -25,10 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * @var admin_root $ADMIN
- */
 if ($hassiteconfig) {
+    /** @var admin_root $ADMIN */
     $ADMIN->add('modules', new admin_category('accessibilitywidgets', get_string('accessibilitywidgets', 'local_accessibility')));
     $url = new moodle_url('/local/accessibility/admin/manageenabledwidgets.php');
     $settings = new admin_externalpage('local_accessibility', get_string('manageenabledwidgets', 'local_accessibility'), $url);

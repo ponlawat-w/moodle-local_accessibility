@@ -32,7 +32,7 @@ use stdClass;
 abstract class widgetbase {
     /**
      * widget title
-     * 
+     *
      * @var string $title
      */
     protected $title;
@@ -107,14 +107,12 @@ abstract class widgetbase {
 
     /**
      * Get active user's configuration of the widget
-     * 
+     *
      * @return null|string
      */
     public function getuserconfig() {
-        /**
-         * @var \moodle_database $DB
-         */
         global $DB, $USER;
+        /** @var \moodle_database $DB */ $DB; /** @var stdClass $USER */ $USER;
 
         if (!$USER || !$USER->id) {
             return null;
@@ -131,10 +129,8 @@ abstract class widgetbase {
      * @return void
      */
     public function setuserconfig($value) {
-        /**
-         * @var \moodle_database $DB
-         */
         global $DB, $USER;
+        /** @var \moodle_database $DB */ $DB; /** @var stdClass $USER */ $USER;
 
         if (!$USER || !$USER->id) {
             return;
@@ -164,10 +160,8 @@ abstract class widgetbase {
      * @return void
      */
     protected function addbodyclass($classname) {
-        /**
-         * @var \moodle_page $PAGE
-         */
         global $PAGE;
+        /** @var \moodle_page $PAGE */
         $PAGE->add_body_class($classname);
     }
 
