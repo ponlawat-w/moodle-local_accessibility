@@ -30,6 +30,7 @@ $functions = [
         'description' => 'Save user widget config',
         'type' => 'write',
         'ajax' => true,
+        'loginrequired' => false,
         'services' => [],
     ],
 ];

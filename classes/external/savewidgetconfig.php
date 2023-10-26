@@ -56,4 +56,12 @@ class savewidgetconfig extends \core_external\external_api {
         $widget->setuserconfig($configvalue);
         return ['success' => true];
     }
+
+    /**
+     * @param \context $context
+     * @return void
+     */
+    public static function validate_context($context) {
+        return;
+    }
 }
