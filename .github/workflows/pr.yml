@@ -41,3 +41,10 @@ jobs:
       widget-backgroundcolour-branch: ${{ needs.widget-versions.outputs.widget-backgroundcolour-branch }}
       widget-fontface-branch: ${{ needs.widget-versions.outputs.widget-fontface-branch }}
       widget-fontsize-branch: ${{ needs.widget-versions.outputs.widget-fontsize-branch }}
+      widget-textcolour-branch: ${{ needs.widget-versions.outputs.widget-textcolour-branch }}
+  pr-ci-finished:
+    name: PR CI Finished
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0

@@ -52,7 +52,7 @@ jobs:
       release: ${{ steps.plugin-info.outputs.PLUGIN_RELEASE }}
       version: ${{ steps.plugin-info.outputs.PLUGIN_VERSION }}
       branch-no-widgets: ${{ steps.get-branch.outputs.BRANCH_NAME }}
-      branch-with-widgets: ${{ steps.get-branch.outputs.BRANCH_NAME }}-default-widgets
+      branch-with-widgets: ${{ steps.get-branch.outputs.BRANCH_NAME }}-with-widgets
 
     runs-on: ubuntu-latest
     steps:
@@ -87,7 +87,7 @@ jobs:
         run: |
           git config --global user.name "ponlawat-w"
           git config --global user.email "ponlawat_w@outlook.co.th"
-          git checkout -b ${{ steps.get-branch.outputs.BRANCH_NAME }}-default-widgets
+          git checkout -b ${{ steps.get-branch.outputs.BRANCH_NAME }}-with-widgets
           rm ./.gitignore
           git add -A
           git commit -m 'Removed .gitignore'
@@ -129,7 +129,7 @@ jobs:
           rm -rf widgets/textcolour/.github
           git add -A
           git commit -m 'Added default widgets'
-          git push -f -u origin ${{ steps.get-branch.outputs.BRANCH_NAME }}-default-widgets
+          git push -f -u origin ${{ steps.get-branch.outputs.BRANCH_NAME }}-with-widgets
 
   release:
 
@@ -180,6 +180,6 @@ jobs:
 
       - name: Make latest version
         if: ${{ matrix.latest }}
-        run: gh release edit --repo ponlawat-w/moodle-local_accessibility ${{ matrix.branch }} --latest
+        run: gh release edit --repo ponlawat-w/moodle-local_accessibility ${{ matrix.name }} --latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
