@@ -143,10 +143,12 @@ jobs:
             name: v${{ needs.push-branches.outputs.release }}-no-widgets
             body: ${{ needs.push-branches.outputs.release }} - ${{ needs.push-branches.outputs.version }} with no widgets
             delete-branch: false
+            latest: false
           - branch: ${{ needs.push-branches.outputs.branch-with-widgets }}
             name: v${{ needs.push-branches.outputs.release }}-with-widgets
             body: ${{ needs.push-branches.outputs.release }} - ${{ needs.push-branches.outputs.version }} with default widgets
             delete-branch: true
+            latest: true
 
     name: Release ${{ matrix.name }}
 
@@ -175,3 +177,20 @@ jobs:
       - name: Delete branch
         if: ${{ matrix.delete-branch }}
         run: git push --force -d origin ${{ matrix.branch }}
+
+      - name: Make latest version
+        if: ${{ matrix.latest }}
+        run: gh release edit --repo ponlawat-w/moodle-local_accessibility ${{ matrix.branch }} --latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  make-latest:
+    name: Mark latest version
+    needs: [push-branches, release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.push-branches.outputs.branch-with-widgets }}
+      - run: gh release edit
