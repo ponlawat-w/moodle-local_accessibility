@@ -28,8 +28,15 @@ namespace local_accessibility\widgets;
  * Abstract class of colour-picker widgets
  */
 abstract class colourwidget extends widgetbase {
+
+    /** @var $class Colourpicker is big, so it takes the whole row */
     protected $class = 'col-12';
 
+    /**
+     * Get content
+     *
+     * @return string
+     */
     public function getcontent() {
         global $OUTPUT, $PAGE;
         /** @var \core_renderer $OUTPUT */ $OUTPUT; /** @var \moodle_page $PAGE */ $PAGE;
@@ -39,7 +46,6 @@ abstract class colourwidget extends widgetbase {
         return $OUTPUT->render_from_template('local_accessibility/widgets/colour', [
             'id' => $id,
             'name' => $this->getfullname(),
-            'widgetname' => $this->getfullname(),
             'value' => '',
             'icon' => $icon->export_for_template($OUTPUT),
             'haspreviewconfig' => false,

@@ -21,17 +21,18 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import { call } from 'core/ajax';
+import {call} from 'core/ajax';
 
 /**
  * Save user's widget config
  * @param {string} widget widget name
- * @param {string} configvalue
+ * @param {string} configvalue value to config, null to remove config
+ * @returns {Promise[]} promises
  */
 export const saveWidgetConfig = (
     widget,
     configvalue
 ) => call([{
     methodname: 'local_accessibility_savewidgetconfig',
-    args: { widget, configvalue }
+    args: {widget, configvalue}
 }])[0];

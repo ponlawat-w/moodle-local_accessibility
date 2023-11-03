@@ -37,9 +37,64 @@ require_once(__DIR__ . '/classes/colourwidget.php');
 function local_accessibility_getinstalledwidgetnames() {
     $pluginmanager = core_plugin_manager::instance();
     $plugins = $pluginmanager->get_plugins_of_type('accessibility');
-    return array_map(function($x) {
-        return $x->name;
-    }, $plugins);
+    $results = [];
+    foreach ($plugins as $plugin) {
+        if ($plugin->is_installed_and_upgraded()) {
+            $results[] = $plugin->name;
+        }
+    }
+    return $results;
+}
+
+/**
+ * Add installed widget into database table
+ *
+ * @param bool $enablenewplugin
+ *
+ * @return void
+ */
+function local_accessibility_addwidgetstodb($enablenewplugin = true) {
+    global $DB;
+    /** @var \moodle_database $DB */ $DB;
+
+    $installedwidgets = local_accessibility_getinstalledwidgetnames();
+    if (!count($installedwidgets)) {
+        return;
+    }
+
+    $widgets = $DB->get_records('local_accessibility_widgets', [], 'sequence ASC', 'id,name,sequence');
+    $widgetnames = array_map(function($record) {
+        return $record->name;
+    }, $widgets);
+    $i = count($widgets) ? array_values($widgets)[count($widgets) - 1]->sequence : 0;
+
+    $newrecords = [];
+    foreach ($installedwidgets as $installedwidget) {
+        if (in_array($installedwidget, $widgetnames)) {
+            continue;
+        }
+        $newrecord = new stdClass();
+        $newrecord->name = $installedwidget;
+        $newrecord->enabled = $enablenewplugin ? 1 : 0;
+        $newrecord->sequence = $enablenewplugin ? ++$i : -1;
+        $newrecords[] = $newrecord;
+    }
+
+    if (!count($newrecords)) {
+        return;
+    }
+
+    $DB->insert_records('local_accessibility_widgets', $newrecords);
+    local_accessibility_resequence();
+}
+
+/**
+ * Check if database structure of plugin is before version 1.0.0
+ *
+ * @return bool
+ */
+function local_accessiblity_before_1_0_0() {
+    return core_plugin_manager::instance()->get_plugin_info('local_accessibility')->versiondb < 2023110101;
 }
 
 /**
@@ -50,7 +105,15 @@ function local_accessibility_getinstalledwidgetnames() {
 function local_accessibility_getenabledwidgets() {
     global $DB;
     /** @var moodle_database $DB */ $DB;
-    return $DB->get_records('accessibility_enabledwidgets', [], 'sequence ASC');
+
+    // Table names have been changed after 1.0.0,
+    // to prevent database exception and bring to upgrade page, return an empty array.
+    if (local_accessiblity_before_1_0_0()) {
+        return [];
+    }
+
+    local_accessibility_addwidgetstodb();
+    return $DB->get_records('local_accessibility_widgets', ['enabled' => 1], 'sequence ASC');
 }
 
 /**
@@ -76,7 +139,7 @@ function local_accessibility_resequence() {
     $i = 1;
     foreach ($widgets as $widget) {
         $widget->sequence = $i++;
-        $DB->update_record('accessibility_enabledwidgets', $widget);
+        $DB->update_record('local_accessibility_widgets', $widget);
     }
 }
 
@@ -84,22 +147,22 @@ function local_accessibility_resequence() {
  * Enable a widget
  *
  * @param string $widgetname
- * @return void
+ * @return bool
  */
 function local_accessibility_enablewidget($widgetname) {
     global $DB;
     /** @var moodle_database $DB */ $DB;
-    if (!in_array($widgetname, local_accessibility_getinstalledwidgetnames())) {
+    local_accessibility_addwidgetstodb();
+    $widget = $DB->get_record('local_accessibility_widgets', ['name' => $widgetname]);
+    if (!$widget) {
         throw new moodle_exception("widget name {$widgetname} is not installed");
     }
-    if ($DB->record_exists('accessibility_enabledwidgets', ['name' => $widgetname])) {
+    if ($widget->enabled) {
         throw new moodle_exception("widget {$widgetname} is already enabled");
     }
-    $maxsequencerecord = $DB->get_record_sql('SELECT sequence FROM {accessibility_enabledwidgets} ORDER BY sequence DESC LIMIT 1');
-    $record = new stdClass();
-    $record->name = $widgetname;
-    $record->sequence = $maxsequencerecord ? $maxsequencerecord->sequence + 1 : 1;
-    return $DB->insert_record('accessibility_enabledwidgets', $record);
+    $widget->enabled = 1;
+    $widget->sequence = count(local_accessibility_getenabledwidgets()) + 1;
+    return $DB->update_record('local_accessibility_widgets', $widget);
 }
 
 /**
@@ -111,9 +174,21 @@ function local_accessibility_enablewidget($widgetname) {
 function local_accessibility_disablewidget($widgetname) {
     global $DB;
     /** @var moodle_database $DB */ $DB;
-    $DB->delete_records('accessibility_enabledwidgets', ['name' => $widgetname]);
-    $DB->delete_records('accessibility_userconfigs', ['widget' => $widgetname]);
-    return local_accessibility_resequence();
+    local_accessibility_addwidgetstodb();
+    $widget = $DB->get_record('local_accessibility_widgets', ['name' => $widgetname]);
+    if (!$widget) {
+        throw new moodle_exception("widget name {$widgetname} is not installed");
+    }
+    if (!$widget->enabled) {
+        throw new moodle_exception("widget {$widgetname} is already disabled");
+    }
+    $widget->enabled = 0;
+    $widget->sequence = -1;
+    if (!$DB->update_record('local_accessibility_widgets', $widget)) {
+        return false;
+    }
+    local_accessibility_resequence();
+    return true;
 }
 
 /**
@@ -121,7 +196,7 @@ function local_accessibility_disablewidget($widgetname) {
  *
  * @param stdClass $widget1 widget record
  * @param stdClass $widget2 widget record
- * @return void
+ * @return bool
  */
 function local_accessibility_swapsequence($widget1, $widget2) {
     global $DB;
@@ -129,8 +204,8 @@ function local_accessibility_swapsequence($widget1, $widget2) {
     $temp = $widget1->sequence;
     $widget1->sequence = $widget2->sequence;
     $widget2->sequence = $temp;
-    return $DB->update_record('accessibility_enabledwidgets', $widget1)
-        && $DB->update_record('accessibility_enabledwidgets', $widget2);
+    return $DB->update_record('local_accessibility_widgets', $widget1)
+        && $DB->update_record('local_accessibility_widgets', $widget2);
 }
 
 /**
@@ -143,7 +218,7 @@ function local_accessibility_moveup($widget) {
     global $DB;
     /** @var moodle_database $DB */ $DB;
     $previouswidget = $DB->get_record_sql(
-        'SELECT * FROM {accessibility_enabledwidgets} WHERE sequence < ? ORDER BY sequence DESC LIMIT 1',
+        'SELECT * FROM {local_accessibility_widgets} WHERE enabled = 1 AND sequence < ? ORDER BY sequence DESC LIMIT 1',
         [$widget->sequence]
     );
     if (!$previouswidget) {
@@ -162,7 +237,7 @@ function local_accessibility_movedown($widget) {
     global $DB;
     /** @var moodle_database $DB */ $DB;
     $nextwidget = $DB->get_record_sql(
-        'SELECT * FROM {accessibility_enabledwidgets} WHERE sequence > ? ORDER BY sequence ASC LIMIT 1',
+        'SELECT * FROM {local_accessibility_widgets} WHERE enabled = 1 AND sequence > ? ORDER BY sequence ASC LIMIT 1',
         [$widget->sequence]
     );
     if (!$nextwidget) {
@@ -224,7 +299,7 @@ function local_accessibility_before_http_headers() {
 /**
  * Injector of widgets and panel initialisation before finish rendering page
  *
- * @return void
+ * @return string
  */
 function local_accessibility_before_footer() {
     global $OUTPUT, $PAGE;
@@ -248,7 +323,12 @@ function local_accessibility_before_footer() {
             'content' => $widgetinstance->getcontent(),
         ];
     }
-    $panel = $OUTPUT->render_from_template('local_accessibility/panel', ['widgets' => $widgets]);
+    $panel = $OUTPUT->render_from_template('local_accessibility/panel', [
+        'widgets' => $widgets,
+        'resetallurl' => new moodle_url('/local/accessibility/resetall.php', [
+            'returnurl' => $PAGE->url,
+        ]),
+    ]);
 
     return $mainbutton . $panel;
 }

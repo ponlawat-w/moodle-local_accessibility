@@ -1,0 +1,141 @@
+# src: https://moodlehq.github.io/moodle-plugin-ci
+name: CI
+
+on:
+  workflow_call:
+    inputs:
+      accessibility-branch:
+        description: Branch of accessibility plugin
+        type: string
+        default: ${{ github.ref }}
+      widget-backgroundcolour-branch:
+        description: Branch of background colour widget
+        type: string
+        default: ''
+      widget-fontface-branch:
+        description: Branch of font face widget
+        type: string
+        default: ''
+      widget-fontsize-branch:
+        description: Branch of font size widget
+        type: string
+        default: ''
+      widget-textcolour-branch:
+        description: Branch of text colour widget
+        type: string
+        default: ''
+
+jobs:
+
+  matrix-test:
+
+    name: Test M${{ (matrix.moodle == 'MOODLE_402_STABLE' && '4.2') || (matrix.moodle == 'MOODLE_403_STABLE' && '4.3') || matrix.moodle }} P${{ matrix.php }} ${{ matrix.db }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ['8.0', '8.1', '8.2']
+        moodle: [MOODLE_402_STABLE, MOODLE_403_STABLE]
+        db: [mysqli, pgsql]
+
+    services:
+      mysql:
+        image: ${{ (matrix.db == 'mysqli' && 'mysql') || '' }}
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_CHARACTER_SET_SERVER: utf8mb4
+          MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+        ports:
+          - 3306:3306
+        options: ${{ (matrix.db == 'mysqli' && '--health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3') || '-e SKIP=1' }}
+      postgres:
+        image: ${{ (matrix.db == 'pgsql' && 'postgres') || '' }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: ${{ (matrix.db == 'pgsql' && '--health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3') || '-e SKIP=1' }}
+
+    steps:
+
+      - name: Checkout for Composite Actions
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          sparse-checkout: .github
+
+      - name: Preparation
+        uses: ./.github/actions/ci-prepare
+        with:
+          moodle: ${{ matrix.moodle }}
+          php: ${{ matrix.php }}
+          db: ${{ matrix.db }}
+          accessibility-branch: ${{ inputs.accessibility-branch }}
+          widget-backgroundcolour-branch: ${{ inputs.widget-backgroundcolour-branch }}
+          widget-fontface-branch: ${{ inputs.widget-fontface-branch }}
+          widget-fontsize-branch: ${{ inputs.widget-fontsize-branch }}
+          widget-textcolour-branch: ${{ inputs.widget-textcolour-branch }}
+
+      - name: PHP Lint
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci phplint -- ./moodle/local/accessibility
+  
+      - name: PHP Copy/Paste Detector
+        continue-on-error: true # This step will show errors but will not fail
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci phpcpd -- ./moodle/local/accessibility
+  
+      - name: PHP Mess Detector
+        continue-on-error: true # This step will show errors but will not fail
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci phpmd -- ./moodle/local/accessibility
+  
+      - name: Moodle Code Checker
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci phpcs --max-warnings 0 -- ./moodle/local/accessibility
+  
+      - name: Moodle PHPDoc Checker
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci phpdoc --max-warnings 0 -- ./moodle/local/accessibility
+  
+      - name: Validating
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci validate -- ./moodle/local/accessibility
+  
+      - name: Check upgrade savepoints
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci savepoints -- ./moodle/local/accessibility
+  
+      - name: Mustache Lint
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci mustache -- ./moodle/local/accessibility
+  
+      - name: Grunt
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci grunt --max-lint-warnings 0 -- ./moodle/local/accessibility
+  
+      - name: PHPUnit tests
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci phpunit --fail-on-warning -- ./moodle/local/accessibility
+  
+      - name: Behat features
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: moodle-plugin-ci behat --profile chrome -- ./moodle/local/accessibility
+  
+      - name: Mark cancelled jobs as failed.
+        if: ${{ cancelled() }}
+        shell: bash
+        run: exit 1

@@ -12,11 +12,26 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local/accessibility
+    @template local_accessibility/panel
+
     Accessibility panel
 
     Context variables required for this template:
-    * widgets strClass[] - widget records
+    * resetallurl - URL to resetall.php
+    * widgets - widget object
+
+    Example context (json):
+    {
+        "resetallurl": "https://my.moodle/local/accessibility/resetall.php?returnurl=...",
+        "widgets": [
+            {
+                "class": "col-6",
+                "name": "widgetnamewithoutprefix",
+                "title": "Widget Name",
+                "content": "<div></div>"
+            }
+        ]
+    }
 }}
 <div class="local-accessibility-panel border-primary p-0 card col-10 col-lg-8">
     <div class="card-header bg-primary text-light">
@@ -28,6 +43,13 @@
     </div>
     <div class="card-body">
         <div class="container">
+            <div class="row">
+                <div class="container-fluid text-right mb-2">
+                    <a href="{{resetallurl}}" class="btn btn-secondary">
+                        {{#str}} resetall, local_accessibility {{/str}}
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 {{#widgets}}
                     <div class="{{class}} card">

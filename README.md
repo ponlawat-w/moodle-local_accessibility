@@ -5,6 +5,8 @@ Accessibility plugin
 This plugin requires subplugins (widgets) to be installed separatedly inside directory `widgets` of this plugin.
 After installing widget plugins, site administrator needs to enable widgets by going to _Site Administration > Plugins > Accessibility Widgets > Manage Enabled Widgets_.
 
+[Instructions to develop a widget plugin](./widgets/README.md)
+
 ## Installing via uploaded ZIP file ##
 
 1. Log in to your Moodle site as an admin and go to _Site administration >

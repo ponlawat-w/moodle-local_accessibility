@@ -37,3 +37,4 @@ $string['manageenabledwidgets'] = 'Manage Enabled Widgets';
 $string['addwidget'] = 'Add Widget';
 
 $string['reset'] = 'Reset';
+$string['resetall'] = 'Reset All';

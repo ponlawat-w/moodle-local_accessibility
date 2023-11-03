@@ -58,6 +58,37 @@ function xmldb_local_accessibility_upgrade($oldversion) {
         $dbman->install_from_xmldb_file($dbxmlpath);
         upgrade_plugin_savepoint(true, 2023071300, 'local', 'accessibility');
     }
+    if ($oldversion < 2023103002) {
+        $oldtable = new xmldb_table('accessibility_enabledwidgets');
+        $newtable = new xmldb_table('accessibility_widgets');
+        if ($dbman->table_exists($oldtable)) {
+            $dbman->rename_table($oldtable, $newtable->getName());
+        }
+        if (!$dbman->field_exists($newtable, 'enabled')) {
+            $field = new xmldb_field('enabled', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, 1, 'name');
+            $dbman->add_field($newtable, $field);
+        }
+        require_once(__DIR__ . '/../lib.php');
+        local_accessibility_addwidgetstodb(false);
+        upgrade_plugin_savepoint(true, 2023103002, 'local', 'accessibility');
+    }
+    if ($oldversion < 2023110101) {
+        $oldtable = new xmldb_table('accessibility_widgets');
+        $newtable = new xmldb_table('local_accessibility_widgets');
+        if ($dbman->table_exists($oldtable) && !$dbman->table_exists($newtable)) {
+            $dbman->rename_table($oldtable, $newtable->getName());
+        }
+        $oldtable1 = new xmldb_table('accessibility_userconfigs');
+        $oldtable2 = new xmldb_table('local_accessibility_userconfigs');
+        $newtable = new xmldb_table('local_accessibility_configs');
+        if ($dbman->table_exists($oldtable1) && !$dbman->table_exists($newtable)) {
+            $dbman->rename_table($oldtable1, $newtable->getName());
+        }
+        if ($dbman->table_exists($oldtable2) && !$dbman->table_exists($newtable)) {
+            $dbman->rename_table($oldtable2, $newtable->getName());
+        }
+        upgrade_plugin_savepoint(true, 2023110101, 'local', 'accessibility');
+    }
 
     return true;
 }

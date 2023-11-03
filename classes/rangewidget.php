@@ -28,9 +28,16 @@ namespace local_accessibility\widgets;
  * Abstract class of range-selector widgets
  */
 abstract class rangewidget extends widgetbase {
+    /** @var int $min Minimum value */
     protected $min;
+
+    /** @var int $max Maximum value */
     protected $max;
+
+    /** @var int $step Slider step */
     protected $step;
+
+    /** @var int $default Default value */
     protected $default;
 
     /**
@@ -51,6 +58,11 @@ abstract class rangewidget extends widgetbase {
         $this->default = $default;
     }
 
+    /**
+     * Get content
+     *
+     * @return string
+     */
     public function getcontent() {
         global $OUTPUT;
         /** @var \core_renderer $OUTPUT */ $OUTPUT;

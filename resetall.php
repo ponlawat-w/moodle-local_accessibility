@@ -15,42 +15,22 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Accessibility widget plugin info
+ * Page to reset all plugin settings
  *
  * @package     local_accessibility
+ * @category    admin
  * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_accessibility\plugininfo;
+require_once(__DIR__ . '/../../config.php'); // @codingStandardsIgnoreLine ignore login check as guest is also allowed.
+require_once(__DIR__ . '/lib.php');
 
-use core\plugininfo\base;
+$returnurl = optional_param('returnurl', new moodle_url('/'), PARAM_URL);
 
-/**
- * Accessibility widget plugin info class
- */
-class accessibility extends base {
-    /**
-     * Uninstallation is allowed
-     *
-     * @return true
-     */
-    public function is_uninstall_allowed() {
-        return true;
-    }
-
-    /**
-     * Function to cleanup database values after widget uninstallation
-     *
-     * @return void
-     */
-    public function uninstall_cleanup() {
-        global $DB;
-
-        /** @var \moodle_database $DB */
-        $DB->delete_records('local_accessibility_widgets', ['name' => $this->name]);
-        $DB->delete_records('local_accessibility_configs', ['widget' => $this->name]);
-
-        parent::uninstall_cleanup();
-    }
+$widgets = local_accessibility_getwidgetinstances();
+foreach ($widgets as $widget) {
+    $widget->setuserconfig(null);
 }
+
+redirect($returnurl);

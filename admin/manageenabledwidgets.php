@@ -47,7 +47,7 @@ if ($enablewidgetform->is_submitted()) {
 $action = optional_param('action', null, PARAM_TEXT);
 if ($action) {
     $id = required_param('id', PARAM_INT);
-    $widget = $DB->get_record('accessibility_enabledwidgets', ['id' => $id], '*', MUST_EXIST);
+    $widget = $DB->get_record('local_accessibility_widgets', ['id' => $id, 'enabled' => 1], '*', MUST_EXIST);
     if ($action == 'moveup') {
         local_accessibility_moveup($widget);
         redirect($url); exit;

@@ -24,10 +24,20 @@
 import $ from 'jquery';
 
 /**
+ * Callback type after range value being changed
+ *
+ * @callback valueChangedCallback
+ * @param {number} newvalue new value
+ * @returns {void}
+ */
+
+/**
  * Initialise JS for a range-selector widget
+ *
  * @param {string} name widget name
- * @param {(number) => void} callback callback function when value changed
+ * @param {valueChangedCallback} callback callback function when value changed
  * @param {string|number} userdefault default value of user
+ * @returns {void}
  */
 export const initrangewidget = (name, callback, userdefault = undefined) => {
     const $inputrange = $(`#${name}-input`);

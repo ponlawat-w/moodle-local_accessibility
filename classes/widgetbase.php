@@ -30,23 +30,14 @@ use stdClass;
  * Base class for widgets
  */
 abstract class widgetbase {
-    /**
-     * widget title
-     *
-     * @var string $title
-     */
+
+    /** @var string $title widget title */
     protected $title;
-    /**
-     * widget name
-     *
-     * @var string $name
-     */
+
+    /** @var string $name widget name */
     protected $name;
-    /**
-     * widget column class in panel, this to indicates size of widget box in the card
-     *
-     * @var string $class
-     */
+
+    /** @var string $class widget column class in panel, this to indicates size of widget box in the card */
     protected $class = 'col-12 col-md-6';
 
     /**
@@ -106,6 +97,51 @@ abstract class widgetbase {
     }
 
     /**
+     * Get configuration of non-login user from guest session
+     *
+     * @return null|string
+     */
+    protected function getguestconfig() {
+        global $SESSION;
+        /** @var stdClass $SESSION */ $SESSION;
+
+        if (!isset($SESSION->local_accessibility)
+            || !isset($SESSION->local_accessibility->guestconfigs)
+            || !isset($SESSION->local_accessibility->guestconfigs->{$this->name})
+            || is_null($SESSION->local_accessibility->guestconfigs->{$this->name})
+        ) {
+            return null;
+        }
+
+        return $SESSION->local_accessibility->guestconfigs->{$this->name};
+    }
+
+    /**
+     * Set non-login configuration into user's session
+     *
+     * @param null|string $value
+     * @return void
+     */
+    protected function setguestconfig($value) {
+        global $SESSION;
+        /** @var stdClass $SESSION */ $SESSION;
+
+        if (!isset($SESSION->local_accessibility)) {
+            $SESSION->local_accessibility = new stdClass();
+        }
+        if (!isset($SESSION->local_accessibility->guestconfigs)) {
+            $SESSION->local_accessibility->guestconfigs = new stdClass();
+        }
+
+        if (!$value) {
+            unset($SESSION->local_accessibility->guestconfigs->{$this->name});
+            return;
+        }
+
+        $SESSION->local_accessibility->guestconfigs->{$this->name} = $value;
+    }
+
+    /**
      * Get active user's configuration of the widget
      *
      * @return null|string
@@ -115,10 +151,10 @@ abstract class widgetbase {
         /** @var \moodle_database $DB */ $DB; /** @var stdClass $USER */ $USER;
 
         if (!$USER || !$USER->id) {
-            return null;
+            return $this->getguestconfig();
         }
 
-        $record = $DB->get_record('accessibility_userconfigs', ['widget' => $this->name, 'userid' => $USER->id]);
+        $record = $DB->get_record('local_accessibility_configs', ['widget' => $this->name, 'userid' => $USER->id]);
         return $record ? $record->configvalue : null;
     }
 
@@ -133,24 +169,24 @@ abstract class widgetbase {
         /** @var \moodle_database $DB */ $DB; /** @var stdClass $USER */ $USER;
 
         if (!$USER || !$USER->id) {
-            return;
+            return $this->setguestconfig($value);
         }
 
         if (!$value) {
-            return $DB->delete_records('accessibility_userconfigs', ['widget' => $this->name, 'userid' => $USER->id]);
+            return $DB->delete_records('local_accessibility_configs', ['widget' => $this->name, 'userid' => $USER->id]);
         }
 
-        $record = $DB->get_record('accessibility_userconfigs', ['widget' => $this->name, 'userid' => $USER->id]);
+        $record = $DB->get_record('local_accessibility_configs', ['widget' => $this->name, 'userid' => $USER->id]);
         if ($record) {
             $record->configvalue = $value;
-            return $DB->update_record('accessibility_userconfigs', $record);
+            return $DB->update_record('local_accessibility_configs', $record);
         }
 
         $record = new stdClass();
         $record->widget = $this->name;
         $record->userid = $USER->id;
         $record->configvalue = $value;
-        return $DB->insert_record('accessibility_userconfigs', $record);
+        return $DB->insert_record('local_accessibility_configs', $record);
     }
 
     /**
