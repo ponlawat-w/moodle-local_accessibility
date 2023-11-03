@@ -183,14 +183,3 @@ jobs:
         run: gh release edit --repo ponlawat-w/moodle-local_accessibility ${{ matrix.branch }} --latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  make-latest:
-    name: Mark latest version
-    needs: [push-branches, release]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.push-branches.outputs.branch-with-widgets }}
-      - run: gh release edit
