@@ -36,7 +36,7 @@ jobs:
       - name: Get widget branch names
         id: widget-branches
         run: |
-          echo "WIDGET_BACKGROUNDCOLOUR_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_BACKGROUNDCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTFACE_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_FONTFACE_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTSIZE_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_FONTSIZE_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_TEXTCOLOUR_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_TEXTCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
+          echo "WIDGET_BACKGROUNDCOLOUR_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_BACKGROUNDCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
+          echo "WIDGET_FONTFACE_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_FONTFACE_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
+          echo "WIDGET_FONTSIZE_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_FONTSIZE_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
+          echo "WIDGET_TEXTCOLOUR_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_TEXTCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
