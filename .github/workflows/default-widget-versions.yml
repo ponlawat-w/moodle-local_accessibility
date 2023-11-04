@@ -29,10 +29,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          echo "WIDGET_BACKGROUNDCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_backgroundcolour)" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTFACE_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_fontface)" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTSIZE_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_fontsize)" >> $GITHUB_OUTPUT
-          echo "WIDGET_TEXTCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_textcolour)" >> $GITHUB_OUTPUT
+          echo WIDGET_BACKGROUNDCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_backgroundcolour || echo '{"name":"master"}') >> $GITHUB_OUTPUT
+          echo WIDGET_FONTFACE_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_fontface || echo '{"name":"master"}') >> $GITHUB_OUTPUT
+          echo WIDGET_FONTSIZE_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_fontsize || echo '{"name":"master"}') >> $GITHUB_OUTPUT
+          echo WIDGET_TEXTCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_textcolour || echo '{"name":"master"}') >> $GITHUB_OUTPUT
       - name: Get widget branch names
         id: widget-branches
         run: |
