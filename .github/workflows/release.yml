@@ -10,6 +10,8 @@ jobs:
   ci:
     name: CI
     uses: ./.github/workflows/ci.yml
+    with:
+      accessibility-branch: ${{ github.ref }}
 
   get-version:
     name: Get version info

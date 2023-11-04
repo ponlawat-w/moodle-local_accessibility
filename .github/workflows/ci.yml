@@ -7,7 +7,7 @@ on:
       accessibility-branch:
         description: Branch of accessibility plugin
         type: string
-        default: ${{ github.ref }}
+        default: master
       widget-backgroundcolour-branch:
         description: Branch of background colour widget, latest release will be used if not provided
         type: string
@@ -119,6 +119,7 @@ jobs:
       - name: Checkout Accessibility Plugin
         uses: actions/checkout@v4
         with:
+          repository: ponlawat-w/moodle-local_accessibility
           path: plugin
           ref: ${{ inputs.accessibility-branch }}
 
