@@ -7,116 +7,60 @@ on:
 
 jobs:
 
-  widget-versions:
-    name: Get default widget versions
-    runs-on: ubuntu-latest
-    outputs:
-      widget-backgroundcolour-branch: ${{ steps.widget-branches.outputs.WIDGET_BACKGROUNDCOLOUR_VERSION }}
-      widget-fontface-branch: ${{ steps.widget-branches.outputs.WIDGET_FONTFACE_VERSION }}
-      widget-fontsize-branch: ${{ steps.widget-branches.outputs.WIDGET_FONTSIZE_VERSION }}
-      widget-textcolour-branch: ${{ steps.widget-branches.outputs.WIDGET_TEXTCOLOUR_VERSION }}
-    steps:
-      - name: Get widget version
-        id: get-widget-versions
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          echo "WIDGET_BACKGROUNDCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_backgroundcolour)" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTFACE_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_fontface)" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTSIZE_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_fontsize)" >> $GITHUB_OUTPUT
-          echo "WIDGET_TEXTCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_textcolour)" >> $GITHUB_OUTPUT
-      - name: Get widget branch names
-        id: widget-branches
-        run: |
-          echo "WIDGET_BACKGROUNDCOLOUR_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_BACKGROUNDCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTFACE_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_FONTFACE_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTSIZE_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_FONTSIZE_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_TEXTCOLOUR_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_TEXTCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-
   ci:
     name: CI
-    needs: widget-versions
     uses: ./.github/workflows/ci.yml
-    with:
-      widget-backgroundcolour-branch: ${{ needs.widget-versions.outputs.widget-backgroundcolour-branch }}
-      widget-fontface-branch: ${{ needs.widget-versions.outputs.widget-fontface-branch }}
-      widget-fontsize-branch: ${{ needs.widget-versions.outputs.widget-fontsize-branch }}
-      widget-textcolour-branch: ${{ needs.widget-versions.outputs.widget-textcolour-branch }}
+
+  get-version:
+    name: Get version info
+    uses: ./.github/workflows/get-version.yml
 
   push-branches:
     name: Push to release branches
-
-    needs: [widget-versions, ci]
-
+    needs: [ci, get-version]
     outputs:
-      release: ${{ steps.plugin-info.outputs.PLUGIN_RELEASE }}
-      version: ${{ steps.plugin-info.outputs.PLUGIN_VERSION }}
-      branch-no-widgets: ${{ steps.get-branch.outputs.BRANCH_NAME }}
-      branch-with-widgets: ${{ steps.get-branch.outputs.BRANCH_NAME }}-with-widgets
-
+      release: ${{ needs.get-version.outputs.plugin-release }}
+      version: ${{ needs.get-version.outputs.plugin-version }}
+      branch-no-widgets: ${{ needs.get-version.outputs.branch-name }}
+      branch-with-widgets: ${{ needs.get-version.outputs.branch-name }}-with-widgets
     runs-on: ubuntu-latest
     steps:
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.0
-          extensions:
-          ini-values: max_input_vars=5000
-          coverage: none
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }}
-
-      - name: Get plugin information
-        id: plugin-info
-        run: php -r 'define("MOODLE_INTERNAL",1);define("MATURITY_ALPHA",50);define("MATURITY_BETA",100);define("MATURITY_RC",150);define("MATURITY_STABLE",200);define("ANY_VERSION","any");$plugin=new stdClass();include_once("version.php");$plugin->maturity!=200&&throw new Exception("Requires plugin maturity to be stable to release!");echo "PLUGIN_COMPONENT=".(isset($plugin->component)?$plugin->component:"")."\nPLUGIN_RELEASE=".(isset($plugin->release)?$plugin->release:"")."\nPLUGIN_VERSION=".(isset($plugin->version)?$plugin->version:"")."\nPLUGIN_REQUIRES=".(isset($plugin->requires)?$plugin->requires:"")."\nPLUGIN_MATURITY=".(isset($plugin->maturity)?$plugin->maturity:"")."\nPLUGIN_DEPENDENCIES=".(isset($plugin->dependencies)?json_encode($plugin->dependencies):"{}");' >> $GITHUB_OUTPUT
-
-      - name: Get branch name
-        id: get-branch
-        run: php -r 'echo "BRANCH_NAME=".preg_replace("/(\\(|\\))/", "", strtolower(str_replace(" ", "-", preg_replace("/(\\d+)\\.(\\d+)\\.(\\d+)(.*)/","v$1.$2$4", "${{ steps.plugin-info.outputs.PLUGIN_RELEASE }}"))));'  >> $GITHUB_OUTPUT
-
       - name: Push to release branch (without default widgets)
         run: |
-          git checkout -b ${{ steps.get-branch.outputs.BRANCH_NAME }}
-          git push -f -u origin ${{ steps.get-branch.outputs.BRANCH_NAME }}
-
+          git checkout -b ${{ needs.get-version.outputs.branch-name }}
+          git push -f -u origin ${{ needs.get-version.outputs.branch-name }}
       - name: Remove .gitignore for default widgets pack
         run: |
           git config --global user.name "ponlawat-w"
           git config --global user.email "ponlawat_w@outlook.co.th"
-          git checkout -b ${{ steps.get-branch.outputs.BRANCH_NAME }}-with-widgets
+          git checkout -b ${{ needs.get-version.outputs.branch-name }}-with-widgets
           rm ./.gitignore
           git add -A
           git commit -m 'Removed .gitignore'
-
       - name: 'Checkout Widget: backgroundcolour'
         uses: actions/checkout@v4
         with:
           repository: ponlawat-w/moodle-accessibility_backgroundcolour
           path: widgets/backgroundcolour
-          ref: ${{ needs.widget-versions.outputs.widget-backgroundcolour-branch }}
+          ref: ${{ needs.ci.outputs.widget-backgroundcolour-branch }}
       - name: 'Checkout Widget: fontface'
         uses: actions/checkout@v4
         with:
           repository: ponlawat-w/moodle-accessibility_fontface
           path: widgets/fontface
-          ref: ${{ needs.widget-versions.outputs.widget-fontface-branch }}
+          ref: ${{ needs.ci.outputs.widget-fontface-branch }}
       - name: 'Checkout Widget: fontsize'
         uses: actions/checkout@v4
         with:
           repository: ponlawat-w/moodle-accessibility_fontsize
           path: widgets/fontsize
-          ref: ${{ needs.widget-versions.outputs.widget-fontsize-branch }}
+          ref: ${{ needs.ci.outputs.widget-fontsize-branch }}
       - name: 'Checkout Widget: textcolour'
         uses: actions/checkout@v4
         with:
           repository: ponlawat-w/moodle-accessibility_textcolour
           path: widgets/textcolour
-          ref: ${{ needs.widget-versions.outputs.widget-textcolour-branch }}
-
+          ref: ${{ needs.ci.outputs.widget-textcolour-branch }}
       - name: Add widgets
         run: |
           rm -rf widgets/backgroundcolour/.git
@@ -129,12 +73,10 @@ jobs:
           rm -rf widgets/textcolour/.github
           git add -A
           git commit -m 'Added default widgets'
-          git push -f -u origin ${{ steps.get-branch.outputs.BRANCH_NAME }}-with-widgets
+          git push -f -u origin ${{ needs.get-version.outputs.branch-name }}-with-widgets
 
   release:
-
     needs: push-branches
-
     strategy:
       fail-fast: true
       matrix:
@@ -147,31 +89,25 @@ jobs:
             name: v${{ needs.push-branches.outputs.release }}-with-widgets
             body: ${{ needs.push-branches.outputs.release }} - ${{ needs.push-branches.outputs.version }} with default widgets
             delete-branch: true
-
     name: Release ${{ matrix.name }}
-
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ matrix.branch }}
-
       - name: Publish Tag
         run: |
           git config --global user.name "ponlawat-w"
           git config --global user.email "ponlawat_w@outlook.co.th"
           git tag -fa ${{ matrix.name }} -m "${{ matrix.body }}"
           git push --force origin ${{ matrix.name }}
-
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ matrix.name }}
           name: ${{ matrix.name }}
           body: ${{ matrix.body }}
-
       - name: Delete branch
         if: ${{ matrix.delete-branch }}
         run: git push --force -d origin ${{ matrix.branch }}
