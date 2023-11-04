@@ -25,6 +25,10 @@ jobs:
       branch-with-widgets: ${{ needs.get-version.outputs.branch-name }}-with-widgets
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
       - name: Push to release branch (without default widgets)
         run: |
           git checkout -b ${{ needs.get-version.outputs.branch-name }}
