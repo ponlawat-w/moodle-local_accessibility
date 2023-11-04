@@ -56,6 +56,10 @@ jobs:
     steps:
       - id: get-widgets
         run: |
+          echo WIDGET-BACKGROUNDCOLOUR-BRANCH="${{ inputs.widget-backgroundcolour-branch }}"
+          echo WIDGET-FONTFACE-BRANCH="${{ inputs.widget-fontface-branch }}"
+          echo WIDGET-FONTSIZE-BRANCH="${{ inputs.widget-fontsize-branch }}"
+          echo WIDGET-TEXTCOLOUR-BRANCH="${{ inputs.widget-textcolour-branch }}"
           echo WIDGET-BACKGROUNDCOLOUR-BRANCH="${{ inputs.widget-backgroundcolour-branch || needs.default-widget-versions.outputs.widget-backgroundcolour-branch }}"
           echo WIDGET-FONTFACE-BRANCH="${{ inputs.widget-fontface-branch || needs.default-widget-versions.outputs.widget-fontface-branch }}"
           echo WIDGET-FONTSIZE-BRANCH="${{ inputs.widget-fontsize-branch || needs.default-widget-versions.outputs.widget-fontsize-branch }}"
