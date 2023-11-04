@@ -8,40 +8,9 @@ on:
       - reopened
       - synchronize
 jobs:
-  widget-versions:
-    name: Get default widget versions
-    runs-on: ubuntu-latest
-    outputs:
-      widget-backgroundcolour-branch: ${{ steps.widget-branches.outputs.WIDGET_BACKGROUNDCOLOUR_VERSION }}
-      widget-fontface-branch: ${{ steps.widget-branches.outputs.WIDGET_FONTFACE_VERSION }}
-      widget-fontsize-branch: ${{ steps.widget-branches.outputs.WIDGET_FONTSIZE_VERSION }}
-      widget-textcolour-branch: ${{ steps.widget-branches.outputs.WIDGET_TEXTCOLOUR_VERSION }}
-    steps:
-      - name: Get widget version
-        id: get-widget-versions
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          echo "WIDGET_BACKGROUNDCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_backgroundcolour)" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTFACE_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_fontface)" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTSIZE_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_fontsize)" >> $GITHUB_OUTPUT
-          echo "WIDGET_TEXTCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_textcolour)" >> $GITHUB_OUTPUT
-      - name: Get widget branch names
-        id: widget-branches
-        run: |
-          echo "WIDGET_BACKGROUNDCOLOUR_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_BACKGROUNDCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTFACE_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_FONTFACE_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_FONTSIZE_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_FONTSIZE_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
-          echo "WIDGET_TEXTCOLOUR_VERSION=v${{ fromJson(steps.get-widget-versions.outputs.WIDGET_TEXTCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
   ci:
     name: CI
-    needs: widget-versions
     uses: ./.github/workflows/ci.yml
-    with:
-      widget-backgroundcolour-branch: ${{ needs.widget-versions.outputs.widget-backgroundcolour-branch }}
-      widget-fontface-branch: ${{ needs.widget-versions.outputs.widget-fontface-branch }}
-      widget-fontsize-branch: ${{ needs.widget-versions.outputs.widget-fontsize-branch }}
-      widget-textcolour-branch: ${{ needs.widget-versions.outputs.widget-textcolour-branch }}
   pr-ci-finished:
     name: PR CI Finished
     needs: ci
