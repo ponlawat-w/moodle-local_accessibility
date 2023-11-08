@@ -77,10 +77,10 @@ jobs:
       matrix:
         include:
           - moodle: MOODLE_400_STABLE
-            php: 7.3
+            php: 7.4
             db: mysqli
           - moodle: MOODLE_400_STABLE
-            php: 7.3
+            php: 7.4
             db: pgsql
           - moodle: MOODLE_401_STABLE
             php: 7.4
