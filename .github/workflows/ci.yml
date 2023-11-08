@@ -75,16 +75,31 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        db: [mysqli, pgsql]
         include:
           - moodle: MOODLE_400_STABLE
             php: 7.3
+            db: mysqli
+          - moodle: MOODLE_400_STABLE
+            php: 7.3
+            db: pgsql
           - moodle: MOODLE_401_STABLE
             php: 7.4
+            db: mysqli
+          - moodle: MOODLE_401_STABLE
+            php: 7.4
+            db: pgsql
           - moodle: MOODLE_402_STABLE
             php: 8.0
+            db: mysqli
+          - moodle: MOODLE_402_STABLE
+            php: 8.0
+            db: pgsql
           - moodle: MOODLE_403_STABLE
             php: 8.1
+            db: mysqli
+          - moodle: MOODLE_403_STABLE
+            php: 8.1
+            db: pgsql
 
     services:
       mysql:
