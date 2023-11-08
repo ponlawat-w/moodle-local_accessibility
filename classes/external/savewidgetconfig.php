@@ -29,6 +29,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../lib.php');
 require_once(__DIR__ . '/../../../../lib/externallib.php');
 
+if ($CFG->version < 2022112999) { // Moodle < 4.2.
+    class_alias('\\external_api', '\\core_external\\external_api');
+    class_alias('\\external_function_parameters', '\\core_external\\external_function_parameters');
+    class_alias('\\external_single_structure', '\\core_external\\external_single_structure');
+    class_alias('\\external_value', '\\core_external\\external_value');
+}
+
 /**
  * External API class to save user's widget config
  */
