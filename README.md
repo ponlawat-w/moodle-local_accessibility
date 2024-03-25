@@ -21,7 +21,7 @@ git  clone git@github.com:ponlawat-w/moodle-local_accessibility.git  local/acces
 `cd local/accessibility`
 
 At this point the plugin will be installed but without any widgets. To add the widgets you can check out by tag as follows.
-Find the tag you want to checkout then (assuming this is the tag you want)
+Tags can be found at https://github.com/ponlawat-w/moodle-local_accessibility/tags. Select the one you want and checkout as follows
 
 `git checkout v1.0.1-with-widgets`
 
