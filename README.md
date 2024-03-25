@@ -15,6 +15,20 @@ After installing widget plugins, site administrator needs to enable widgets by g
    extra details if your plugin type is not automatically detected.
 3. Check the plugin validation report and finish the installation.
 
+## Installing via git
+From moodle root 
+
+git  clone git@github.com:ponlawat-w/moodle-local_accessibility.git  local/accessibility
+
+`cd local/accessibility`
+
+At this point the plugin will be installed but without any widgets. To add the widgets you can check out by tag as follows.
+Tags can be found at https://github.com/ponlawat-w/moodle-local_accessibility/tags. Select the one you want and checkout as follows
+
+`git checkout v1.0.1-with-widgets`
+
+This will result in a warning about being in 'detached HEAD' state that will not affect testing
+
 ## Installing manually ##
 
 The plugin can be also installed by putting the contents of this directory to
