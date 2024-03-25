@@ -27,7 +27,6 @@ Tags can be found at https://github.com/ponlawat-w/moodle-local_accessibility/ta
 
 This will result in a warning about being in 'detached HEAD' state that will not affect testing
 
-
 ## Installing manually ##
 
 The plugin can be also installed by putting the contents of this directory to
