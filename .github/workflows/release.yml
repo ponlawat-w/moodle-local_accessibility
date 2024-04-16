@@ -3,7 +3,7 @@ name: Plugin Release
 on:
   push:
     branches:
-      - master
+      - release
 
 jobs:
 
