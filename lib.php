@@ -325,9 +325,10 @@ function local_accessibility_before_footer() {
     }
     $panel = $OUTPUT->render_from_template('local_accessibility/panel', [
         'widgets' => $widgets,
-        'resetallurl' => new moodle_url('/local/accessibility/resetall.php', [
+        'resetallurl' => (new moodle_url('/local/accessibility/resetall.php', [
             'returnurl' => $PAGE->url,
-        ]),
+            'sesskey' => sesskey(),
+        ]))->out(false),
     ]);
 
     return $mainbutton . $panel;
