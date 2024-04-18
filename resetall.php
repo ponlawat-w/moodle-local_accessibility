@@ -26,6 +26,8 @@
 require_once(__DIR__ . '/../../config.php'); // @codingStandardsIgnoreLine ignore login check as guest is also allowed.
 require_once(__DIR__ . '/lib.php');
 
+require_sesskey();
+
 $returnurl = optional_param('returnurl', new moodle_url('/'), PARAM_URL);
 
 $widgets = local_accessibility_getwidgetinstances();
