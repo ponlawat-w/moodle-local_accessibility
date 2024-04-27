@@ -57,3 +57,8 @@ along with Moodle.  If not, see <https://www.gnu.org/licenses/>. */
 .local-accessibility-panel .card-header {
     border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0;
 }
+
+.h5p-embed .local-accessibility-buttoncontainer {
+    display: none;
+}
+
