@@ -28,7 +28,7 @@ require_once(__DIR__ . '/lib.php');
 
 require_sesskey();
 
-$returnurl = optional_param('returnurl', new moodle_url('/'), PARAM_URL);
+$returnurl = optional_param('returnurl', new moodle_url('/'), PARAM_LOCALURL);
 
 $widgets = local_accessibility_getwidgetinstances();
 foreach ($widgets as $widget) {

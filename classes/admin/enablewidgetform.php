@@ -22,10 +22,13 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_accessibility\admin;
+
+use moodleform;
+
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../../../../lib/formslib.php');
-require_once(__DIR__ . '/../../lib.php');
+require_once($CFG->libdir.'/formslib.php');
 
 /**
  * Form class to enable a widget
@@ -36,6 +39,7 @@ class enablewidgetform extends moodleform {
      * @return string[]
      */
     private function getdisabledwidgets() {
+        require_once(__DIR__ . '/../../lib.php'); // Load on demand if not already loaded.
         $results = [];
         $enabledwidgets = local_accessibility_getenabledwidgetnames();
         $allwidgets = local_accessibility_getinstalledwidgetnames();

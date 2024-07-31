@@ -23,12 +23,6 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once(__DIR__ . '/classes/widgetbase.php');
-require_once(__DIR__ . '/classes/rangewidget.php');
-require_once(__DIR__ . '/classes/colourwidget.php');
-
 /**
  * Return names of installed widgets
  *
@@ -266,14 +260,9 @@ function local_accessibility_getwidgetinstances() {
  */
 function local_accessibility_getwidgetinstancebyname($widgetname) {
     global $CFG;
-    $filepath = "{$CFG->dirroot}/local/accessibility/widgets/{$widgetname}/accessibility_{$widgetname}.php";
-    if (!file_exists($filepath)) {
-        throw new moodle_exception("File {$filepath} does not exist");
-    }
-    require_once($filepath);
-    $classname = 'local_accessibility\widgets\\' . $widgetname;
+    $classname = 'accessibility_' . $widgetname. '\\' . $widgetname;
     if (!class_exists($classname)) {
-        throw new moodle_exception("Class {$classname} does not exist in {$filepath}");
+        throw new moodle_exception("Class {$classname} does not exist");
     }
     return new $classname();
 }
@@ -285,12 +274,13 @@ function local_accessibility_getwidgetinstancebyname($widgetname) {
  */
 function local_accessibility_before_http_headers() {
     global $PAGE;
+    /** @var \moodle_page $PAGE */
     $widgetinstances = local_accessibility_getwidgetinstances();
     if (!count($widgetinstances)) {
         return;
     }
-    /** @var \moodle_page $PAGE */
     $PAGE->requires->css('/local/accessibility/styles.css');
+    $PAGE->requires->css('/local/accessibility/styles.php');
     foreach ($widgetinstances as $widgetinstance) {
         $widgetinstance->init();
     }
