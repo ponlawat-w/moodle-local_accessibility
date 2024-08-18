@@ -23,6 +23,14 @@
  */
 
 namespace local_accessibility\widgets;
+/**
+ * Used by widgets to mark that they have styles which need to be applied.
+ */
 interface apply_style {
+    /**
+     * Apply widget css will be served over the styles.php file.
+     *
+     * @return string
+     */
     public function apply_style(): string;
 }

@@ -22,7 +22,8 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__ . '/../../config.php');
+// Avoid explicit logic check, we serve the styles to all.
+require_once(__DIR__ . '/../../config.php'); // @codingStandardsIgnoreLine
 require_once(__DIR__ . '/lib.php');
 header('Content-Type: text/css');
 $widgetinstances = local_accessibility_getwidgetinstances();

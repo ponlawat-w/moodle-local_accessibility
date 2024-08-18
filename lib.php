@@ -274,7 +274,6 @@ function local_accessibility_getwidgetinstancebyname($widgetname) {
  */
 function local_accessibility_before_http_headers() {
     global $PAGE;
-    /** @var \moodle_page $PAGE */
     $widgetinstances = local_accessibility_getwidgetinstances();
     if (!count($widgetinstances)) {
         return;
