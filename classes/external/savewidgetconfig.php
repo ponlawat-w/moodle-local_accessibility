@@ -74,7 +74,7 @@ class savewidgetconfig extends \core_external\external_api {
      * @param string|null $configvalue
      * @return array
      */
-    public static function execute(string $widget, string $configvalue = null): array {
+    public static function execute(string $widget, ?string $configvalue = null): array {
         require_once(__DIR__ . '/../../lib.php'); // Load on demand if not already loaded.
         $params = self::validate_parameters(self::execute_parameters(), ['widget' => $widget, 'configvalue' => $configvalue]);
         $widgetinstance = local_accessibility_getwidgetinstancebyname($params['widget']);
