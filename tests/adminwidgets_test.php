@@ -32,7 +32,7 @@ require_once(__DIR__ . '/../lib.php');
 /**
  * Test for admin management of widgets
  */
-class adminwidgets_test extends testcase {
+final class adminwidgets_test extends testcase {
     /**
      * Test if installed widgets are added to database
      *
@@ -40,7 +40,7 @@ class adminwidgets_test extends testcase {
      *
      * @return void
      */
-    public function test_dbwidgetstable() {
+    public function test_dbwidgetstable(): void {
         global $DB;
         /** @var \moodle_database $DB */ $DB;
 
@@ -61,7 +61,7 @@ class adminwidgets_test extends testcase {
      *
      * @return void
      */
-    public function test_enablingwidgets() {
+    public function test_enablingwidgets(): void {
         $this->resetAfterTest(true);
 
         $this->assertGreaterThanOrEqual(count(self::gettestwidgets()), count(local_accessibility_getenabledwidgets()));
@@ -95,7 +95,7 @@ class adminwidgets_test extends testcase {
      *
      * @return void
      */
-    public function test_sequencing() {
+    public function test_sequencing(): void {
         $this->resetAfterTest(true);
 
         foreach (local_accessibility_getenabledwidgetnames() as $widgetname) {
@@ -130,7 +130,7 @@ class adminwidgets_test extends testcase {
      *
      * @return void
      */
-    public function test_moveupdown() {
+    public function test_moveupdown(): void {
         global $DB;
         /** @var \moodle_database $DB */ $DB;
 
