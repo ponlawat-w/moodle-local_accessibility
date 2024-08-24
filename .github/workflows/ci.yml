@@ -37,6 +37,28 @@ on:
       widget-textcolour-branch:
         description: Branch of text colour widget
         value: ${{ jobs.set-widget-versions.outputs.widget-textcolour-branch }}
+  workflow_dispatch:
+    inputs:
+      accessibility-branch:
+        description: Branch of accessibility plugin
+        type: string
+        default: master
+      widget-backgroundcolour-branch:
+        description: Branch of background colour widget, latest release will be used if not provided
+        type: string
+        default: ''
+      widget-fontface-branch:
+        description: Branch of font face widget, latest release will be used if not provided
+        type: string
+        default: ''
+      widget-fontsize-branch:
+        description: Branch of font size widget, latest release will be used if not provided
+        type: string
+        default: ''
+      widget-textcolour-branch:
+        description: Branch of text colour widget, latest release will be used if not provided
+        type: string
+        default: ''
 
 jobs:
 
