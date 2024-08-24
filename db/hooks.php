@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
+// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,21 +12,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
-
-/**
- * Plugin version and other meta-data are defined here.
- *
- * @package     local_accessibility
- * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_accessibility';
-$plugin->release = '1.0.3';
-$plugin->version = 2024050800;
-$plugin->requires = 2022041900; // Moodle >= 4.0.
-$plugin->supported = [400, 401, 402, 403, 404];
-$plugin->maturity = MATURITY_STABLE;
+$callbacks = [
+    [
+        'hook' => \core\hook\output\before_http_headers::class,
+        'callback' => \local_accessibility\hooks\output\before_http_headers::class . '::callback',
+    ],
+    [
+        'hook' => \core\hook\output\before_footer_html_generation::class,
+        'callback' => \local_accessibility\hooks\output\before_footer_html_generation::class . '::callback',
+    ],
+];
