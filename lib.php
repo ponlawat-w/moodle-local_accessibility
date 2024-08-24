@@ -281,6 +281,7 @@ function local_accessibility_getwidgetinstancebyname($widgetname) {
 /**
  * Injector of widget initialisation before rendering page
  *
+ * @deprecated since Moodle 4.3
  * @return void
  */
 function local_accessibility_before_http_headers() {
@@ -298,7 +299,8 @@ function local_accessibility_before_http_headers() {
 
 /**
  * Injector of widgets and panel initialisation before finish rendering page
- *
+ * 
+ * @deprecated since Moodle 4.3
  * @return string
  */
 function local_accessibility_before_footer() {
