@@ -37,6 +37,7 @@ class before_http_headers {
         }
         /** @var \moodle_page $PAGE */
         $PAGE->requires->css('/local/accessibility/styles.css');
+        $PAGE->requires->css('/local/accessibility/styles.php');
         foreach ($widgetinstances as $widgetinstance) {
             $widgetinstance->init();
         }
