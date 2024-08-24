@@ -29,7 +29,7 @@ namespace local_accessibility\widgets;
  */
 abstract class colourwidget extends widgetbase {
 
-    /** @var $class Colourpicker is big, so it takes the whole row */
+    /** @var string $class Colourpicker is big, so it takes the whole row */
     protected $class = 'col-12';
 
     /**

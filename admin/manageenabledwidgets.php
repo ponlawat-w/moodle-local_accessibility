@@ -24,12 +24,13 @@
  * @var moodle_database $DB
  */
 
+use local_accessibility\admin\enablewidgetform;
+
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 admin_externalpage_setup('local_accessibility');
 
 require_once(__DIR__ . '/../lib.php');
-require_once(__DIR__ . '/../classes/admin/enablewidgetform.php');
 
 $url = new moodle_url('/local/accessibility/admin/manageenabledwidgets.php');
 
@@ -46,6 +47,7 @@ if ($enablewidgetform->is_submitted()) {
 
 $action = optional_param('action', null, PARAM_TEXT);
 if ($action) {
+    require_sesskey();
     $id = required_param('id', PARAM_INT);
     $widget = $DB->get_record('local_accessibility_widgets', ['id' => $id, 'enabled' => 1], '*', MUST_EXIST);
     if ($action == 'moveup') {
@@ -77,6 +79,7 @@ echo $OUTPUT->heading(get_string('manageenabledwidgets', 'local_accessibility'))
 echo $OUTPUT->render_from_template('local_accessibility/admin/enabledwidgets', [
     'widgets' => $context,
     'baseurl' => $url,
+    'sesskey' => sesskey(),
 ]);
 echo html_writer::start_tag('hr');
 $enablewidgetform->display();
