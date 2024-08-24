@@ -15,18 +15,22 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Interface which can be implemented by subplugins for css usage.
  *
  * @package     local_accessibility
  * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_accessibility';
-$plugin->release = '2.0.0';
-$plugin->version = 2024082401;
-$plugin->requires = 2022041900; // Moodle >= 4.0.
-$plugin->supported = [400, 404];
-$plugin->maturity = MATURITY_STABLE;
+namespace local_accessibility\widgets;
+/**
+ * Used by widgets to mark that they have styles which need to be applied.
+ */
+interface apply_style {
+    /**
+     * Apply widget css will be served over the styles.php file.
+     *
+     * @return string
+     */
+    public function apply_style(): string;
+}

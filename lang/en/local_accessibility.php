@@ -23,18 +23,17 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$string['pluginname'] = 'Accessibility';
-
 $string['accessibilitywidgets'] = 'Accessibility Widgets';
 
-$string['subplugintype_accessibility'] = 'Accessibility Widget';
-$string['subplugintype_accessibility_plural'] = 'Accessibility Widgets';
-
-$string['widget'] = 'Widget';
-$string['manageenabledwidgets'] = 'Manage Enabled Widgets';
 $string['addwidget'] = 'Add Widget';
-
+$string['manageenabledwidgets'] = 'Manage Enabled Widgets';
+$string['pluginname'] = 'Accessibility';
+$string['privacy:metadata:configs'] = 'A config for a widget in the plugin Accessibility Widgets';
+$string['privacy:metadata:configs:configvalue'] = 'Used config';
+$string['privacy:metadata:configs:userid'] = 'The user who is assigned to the config';
+$string['privacy:metadata:configs:widget'] = 'Widget name';
 $string['reset'] = 'Reset';
 $string['resetall'] = 'Reset All';
+$string['subplugintype_accessibility'] = 'Accessibility Widget';
+$string['subplugintype_accessibility_plural'] = 'Accessibility Widgets';
+$string['widget'] = 'Widget';

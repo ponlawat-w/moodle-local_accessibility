@@ -15,18 +15,23 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Apply the styles of the subplugins to the pages.
  *
  * @package     local_accessibility
  * @copyright   2023 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_accessibility';
-$plugin->release = '2.0.0';
-$plugin->version = 2024082401;
-$plugin->requires = 2022041900; // Moodle >= 4.0.
-$plugin->supported = [400, 404];
-$plugin->maturity = MATURITY_STABLE;
+// Avoid explicit logic check, we serve the styles to all.
+require_once(__DIR__ . '/../../config.php'); // @codingStandardsIgnoreLine
+require_once(__DIR__ . '/lib.php');
+header('Content-Type: text/css');
+$widgetinstances = local_accessibility_getwidgetinstances();
+if (!count($widgetinstances)) {
+    return;
+}
+foreach ($widgetinstances as $widgetinstance) {
+    if ($widgetinstance instanceof \local_accessibility\widgets\apply_style) {
+        echo $widgetinstance->apply_style();
+    }
+}

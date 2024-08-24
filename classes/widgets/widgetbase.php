@@ -125,7 +125,6 @@ abstract class widgetbase {
     protected function setguestconfig($value) {
         global $SESSION;
         /** @var stdClass $SESSION */ $SESSION;
-
         if (!isset($SESSION->local_accessibility)) {
             $SESSION->local_accessibility = new stdClass();
         }

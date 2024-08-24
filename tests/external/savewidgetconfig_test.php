@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../../../../webservice/tests/helpers.php');
 /**
  * Test save widget config API
  */
-class savewidgetconfig_test extends \advanced_testcase {
+final class savewidgetconfig_test extends \advanced_testcase {
     /**
      * Test user configuration via external API class
      *
@@ -42,7 +42,7 @@ class savewidgetconfig_test extends \advanced_testcase {
      *
      * @return void
      */
-    public function test_savewidgetconfig_user() {
+    public function test_savewidgetconfig_user(): void {
         $this->resetAfterTest(true);
 
         $user = $this->getDataGenerator()->create_user();
@@ -76,7 +76,7 @@ class savewidgetconfig_test extends \advanced_testcase {
      *
      * @return void
      */
-    public function test_savewidgetconfig_guest() {
+    public function test_savewidgetconfig_guest(): void {
         $this->resetAfterTest(true);
 
         $widget = local_accessibility_getwidgetinstancebyname('fontsize');

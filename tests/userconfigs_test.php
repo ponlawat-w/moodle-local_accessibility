@@ -32,7 +32,7 @@ require_once(__DIR__ . '/../lib.php');
 /**
  * Test user widget configuration saving and loading
  */
-class userconfigs_test extends testcase {
+final class userconfigs_test extends testcase {
     /**
      * Test user configuration
      *
@@ -42,7 +42,7 @@ class userconfigs_test extends testcase {
      *
      * @return void
      */
-    public function test_userconfig() {
+    public function test_userconfig(): void {
         $this->resetAfterTest(true);
 
         $user = $this->getDataGenerator()->create_user();
@@ -70,7 +70,7 @@ class userconfigs_test extends testcase {
      *
      * @return void
      */
-    public function test_guestconfig() {
+    public function test_guestconfig(): void {
         $this->resetAfterTest(true);
 
         $widget = local_accessibility_getwidgetinstancebyname('fontsize');

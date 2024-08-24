@@ -23,12 +23,6 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once(__DIR__ . '/classes/widgetbase.php');
-require_once(__DIR__ . '/classes/rangewidget.php');
-require_once(__DIR__ . '/classes/colourwidget.php');
-
 /**
  * Return names of installed widgets
  *
@@ -266,14 +260,9 @@ function local_accessibility_getwidgetinstances() {
  */
 function local_accessibility_getwidgetinstancebyname($widgetname) {
     global $CFG;
-    $filepath = "{$CFG->dirroot}/local/accessibility/widgets/{$widgetname}/accessibility_{$widgetname}.php";
-    if (!file_exists($filepath)) {
-        throw new moodle_exception("File {$filepath} does not exist");
-    }
-    require_once($filepath);
-    $classname = 'local_accessibility\widgets\\' . $widgetname;
+    $classname = 'accessibility_' . $widgetname. '\\' . $widgetname;
     if (!class_exists($classname)) {
-        throw new moodle_exception("Class {$classname} does not exist in {$filepath}");
+        throw new moodle_exception("Class {$classname} does not exist");
     }
     return new $classname();
 }
@@ -281,6 +270,7 @@ function local_accessibility_getwidgetinstancebyname($widgetname) {
 /**
  * Injector of widget initialisation before rendering page
  *
+ * @deprecated since Moodle 4.3
  * @return void
  */
 function local_accessibility_before_http_headers() {
@@ -289,8 +279,8 @@ function local_accessibility_before_http_headers() {
     if (!count($widgetinstances)) {
         return;
     }
-    /** @var \moodle_page $PAGE */
     $PAGE->requires->css('/local/accessibility/styles.css');
+    $PAGE->requires->css('/local/accessibility/styles.php');
     foreach ($widgetinstances as $widgetinstance) {
         $widgetinstance->init();
     }
@@ -299,6 +289,7 @@ function local_accessibility_before_http_headers() {
 /**
  * Injector of widgets and panel initialisation before finish rendering page
  *
+ * @deprecated since Moodle 4.3
  * @return string
  */
 function local_accessibility_before_footer() {

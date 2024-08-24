@@ -26,8 +26,7 @@ namespace local_accessibility\external;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../../lib.php');
-require_once(__DIR__ . '/../../../../lib/externallib.php');
+require_once($CFG->libdir.'/externallib.php');
 
 if ($CFG->version < 2022112999) { // Moodle < 4.2.
     class_alias('\\external_api', '\\core_external\\external_api');
@@ -75,7 +74,8 @@ class savewidgetconfig extends \core_external\external_api {
      * @param string|null $configvalue
      * @return array
      */
-    public static function execute(string $widget, string $configvalue = null): array {
+    public static function execute(string $widget, ?string $configvalue = null): array {
+        require_once(__DIR__ . '/../../lib.php'); // Load on demand if not already loaded.
         $params = self::validate_parameters(self::execute_parameters(), ['widget' => $widget, 'configvalue' => $configvalue]);
         $widgetinstance = local_accessibility_getwidgetinstancebyname($params['widget']);
         $widgetinstance->setuserconfig($params['configvalue']);
