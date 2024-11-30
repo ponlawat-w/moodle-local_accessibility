@@ -30,8 +30,9 @@ import $ from 'jquery';
  * @param {string} savewidgetname widget name to be saved as user config
  * @param {string} stylename css attribute name to be applied the colour value
  * @param {string} bodyclassname class name of default value in body tag
+ * @param {string} selector css selector of affected elements
  */
-export const init = (widget, savewidgetname, stylename, bodyclassname = undefined) => {
+export const init = (widget, savewidgetname, stylename, bodyclassname = undefined, selector = 'body, body *') => {
     $(() => {
         const revokedefault = () => {
             if (bodyclassname) {
@@ -58,8 +59,7 @@ export const init = (widget, savewidgetname, stylename, bodyclassname = undefine
                 return;
             }
             revokedefault();
-            for (const element of [...$('*')]) {
-                const $element = $(element);
+            for (const $element of [...$(selector)].map(e => $(e))) {
                 if (!$element.attr(defaultattrname)) {
                     $element.attr(defaultattrname, $element.css(stylename));
                 }
@@ -80,7 +80,7 @@ export const init = (widget, savewidgetname, stylename, bodyclassname = undefine
             $resetbtn.on('click', async() => {
                 $picker.val('');
                 revokedefault();
-                for (const element of [...$('*')]) {
+                for (const element of [...$(selector)]) {
                     const $element = $(element);
                     const defaultcolour = $element.attr(defaultattrname) ?? '';
                     $element.css(stylename, defaultcolour);
