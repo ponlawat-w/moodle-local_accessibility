@@ -24,6 +24,18 @@ on:
         description: Branch of text colour widget, latest release will be used if not provided
         type: string
         default: ''
+      widget-additional:
+        description: Repository name of additional widget to test
+        type: string
+        default: ''
+      widget-additional-name:
+        description: Additional widget name
+        type: string
+        default: ''
+      widget-additional-ref:
+        description: Reference of additional widget to test
+        type: string
+        default: ''
     outputs:
       widget-backgroundcolour-branch:
         description: Branch of background colour widget
@@ -57,6 +69,18 @@ on:
         default: ''
       widget-textcolour-branch:
         description: Branch of text colour widget, latest release will be used if not provided
+        type: string
+        default: ''
+      widget-additional:
+        description: Repository name of additional widget to test
+        type: string
+        default: ''
+      widget-additional-name:
+        description: Additional widget name
+        type: string
+        default: ''
+      widget-additional-ref:
+        description: Reference of additional widget to test
         type: string
         default: ''
 
@@ -197,6 +221,14 @@ jobs:
           repository: ponlawat-w/moodle-accessibility_textcolour
           path: plugin/widgets/textcolour
           ref: ${{ inputs.widget-textcolour-branch }}
+      
+      - name: 'Checkout Additional Widget ${{ inputs.widget-additional-name }}'
+        uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional  }}
+        with:
+          repository: ${{ inputs.widget-additional }}
+          path: plugin/widgets/${{ inputs.widget-additional-name }}
+          ref: ${{ inputs.widget-additional-ref }}
 
       - name: Initialise moodle-plugin-ci
         shell: bash
