@@ -113,7 +113,7 @@ jobs:
 
   matrix-test:
 
-    name: Test ${{ (matrix.moodle == 'MOODLE_400_STABLE' && 'M4.0') || (matrix.moodle == 'MOODLE_401_STABLE' && 'M4.1') || (matrix.moodle == 'MOODLE_402_STABLE' && 'M4.2') || (matrix.moodle == 'MOODLE_403_STABLE' && 'M4.3') || (matrix.moodle == 'MOODLE_404_STABLE' && 'M4.4') || matrix.moodle }} P${{ matrix.php }} ${{ matrix.db }}
+    name: Test ${{ (matrix.moodle == 'MOODLE_400_STABLE' && 'M4.0') || (matrix.moodle == 'MOODLE_401_STABLE' && 'M4.1') || (matrix.moodle == 'MOODLE_402_STABLE' && 'M4.2') || (matrix.moodle == 'MOODLE_403_STABLE' && 'M4.3') || (matrix.moodle == 'MOODLE_404_STABLE' && 'M4.4') || (matrix.moodle == 'MOODLE_405_STABLE' && 'M4.5') || matrix.moodle }} P${{ matrix.php }} ${{ matrix.db }}
     runs-on: ubuntu-latest
 
     needs: set-widget-versions
@@ -124,19 +124,10 @@ jobs:
         include:
           - moodle: MOODLE_400_STABLE
             php: 7.4
-            db: mysqli
-          - moodle: MOODLE_400_STABLE
-            php: 7.4
             db: pgsql
           - moodle: MOODLE_401_STABLE
             php: 7.4
-            db: mysqli
-          - moodle: MOODLE_401_STABLE
-            php: 7.4
             db: pgsql
-          - moodle: MOODLE_402_STABLE
-            php: 8.0
-            db: mysqli
           - moodle: MOODLE_402_STABLE
             php: 8.0
             db: pgsql
@@ -150,6 +141,12 @@ jobs:
             php: 8.3
             db: mysqli
           - moodle: MOODLE_404_STABLE
+            php: 8.3
+            db: pgsql
+          - moodle: MOODLE_405_STABLE
+            php: 8.3
+            db: mysqli
+          - moodle: MOODLE_405_STABLE
             php: 8.3
             db: pgsql
 
