@@ -55,12 +55,36 @@ jobs:
           repository: ponlawat-w/moodle-accessibility_fontface
           path: widgets/fontface
           ref: ${{ needs.ci.outputs.widget-fontface-branch }}
+      - name: 'Checkout Widget: fontkerning'
+        uses: actions/checkout@v4
+        with:
+          repository: ponlawat-w/moodle-accessibility_fontkerning
+          path: widgets/fontkerning
+          ref: ${{ needs.ci.outputs.widget-fontkerning-branch }}
       - name: 'Checkout Widget: fontsize'
         uses: actions/checkout@v4
         with:
           repository: ponlawat-w/moodle-accessibility_fontsize
           path: widgets/fontsize
           ref: ${{ needs.ci.outputs.widget-fontsize-branch }}
+      - name: 'Checkout Widget: imagevisibility'
+        uses: actions/checkout@v4
+        with:
+          repository: ponlawat-w/moodle-accessibility_imagevisibility
+          path: widgets/imagevisibility
+          ref: ${{ needs.ci.outputs.widget-imagevisibility-branch }}
+      - name: 'Checkout Widget: letterspacing'
+        uses: actions/checkout@v4
+        with:
+          repository: ponlawat-w/moodle-accessibility_letterspacing
+          path: widgets/letterspacing
+          ref: ${{ needs.ci.outputs.widget-letterspacing-branch }}
+      - name: 'Checkout Widget: lineheight'
+        uses: actions/checkout@v4
+        with:
+          repository: ponlawat-w/moodle-accessibility_lineheight
+          path: widgets/lineheight
+          ref: ${{ needs.ci.outputs.widget-lineheight-branch }}
       - name: 'Checkout Widget: textcolour'
         uses: actions/checkout@v4
         with:
@@ -73,8 +97,16 @@ jobs:
           rm -rf widgets/backgroundcolour/.github
           rm -rf widgets/fontface/.git
           rm -rf widgets/fontface/.github
+          rm -rf widgets/fontkerning/.git
+          rm -rf widgets/fontkerning/.github
           rm -rf widgets/fontsize/.git
           rm -rf widgets/fontsize/.github
+          rm -rf widgets/imagevisibility/.git
+          rm -rf widgets/imagevisibility/.github
+          rm -rf widgets/letterspacing/.git
+          rm -rf widgets/letterspacing/.github
+          rm -rf widgets/lineheight/.git
+          rm -rf widgets/lineheight/.github
           rm -rf widgets/textcolour/.git
           rm -rf widgets/textcolour/.github
           git add -A

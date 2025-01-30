@@ -16,8 +16,24 @@ on:
         description: Branch of font face widget, latest release will be used if not provided
         type: string
         default: ''
+      widget-fontkerning-branch:
+        description: Branch of font kerning widget, latest release will be used if not provided
+        type: string
+        default: ''
       widget-fontsize-branch:
         description: Branch of font size widget, latest release will be used if not provided
+        type: string
+        default: ''
+      widget-imagevisibility-branch:
+        description: Branch of image visibility widget, latest release will be used if not provided
+        type: string
+        default: ''
+      widget-letterspacing-branch:
+        description: Branch of letter spacing widget, latest release will be used if not provided
+        type: string
+        default: ''
+      widget-lineheight-branch:
+        description: Branch of line height widget, latest release will be used if not provided
         type: string
         default: ''
       widget-textcolour-branch:
@@ -43,9 +59,21 @@ on:
       widget-fontface-branch:
         description: Branch of font face widget
         value: ${{ jobs.set-widget-versions.outputs.widget-fontface-branch }}
+      widget-fontkerning-branch:
+        description: Branch of font kerning widget
+        value: ${{ jobs.set-widget-versions.outputs.widget-fontkerning-branch }}
       widget-fontsize-branch:
         description: Branch of font size widget
         value: ${{ jobs.set-widget-versions.outputs.widget-fontsize-branch }}
+      widget-imagevisibility-branch:
+        description: Branch of image visibility widget
+        value: ${{ jobs.set-widget-versions.outputs.widget-imagevisibility-branch }}
+      widget-letterspacing-branch:
+        description: Branch of letter spacing widget
+        value: ${{ jobs.set-widget-versions.outputs.widget-letterspacing-branch }}
+      widget-lineheight-branch:
+        description: Branch of line height widget
+        value: ${{ jobs.set-widget-versions.outputs.widget-lineheight-branch }}
       widget-textcolour-branch:
         description: Branch of text colour widget
         value: ${{ jobs.set-widget-versions.outputs.widget-textcolour-branch }}
@@ -55,22 +83,6 @@ on:
         description: Branch of accessibility plugin
         type: string
         default: master
-      widget-backgroundcolour-branch:
-        description: Branch of background colour widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-fontface-branch:
-        description: Branch of font face widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-fontsize-branch:
-        description: Branch of font size widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-textcolour-branch:
-        description: Branch of text colour widget, latest release will be used if not provided
-        type: string
-        default: ''
       widget-additional:
         description: Repository name of additional widget to test
         type: string
@@ -97,18 +109,30 @@ jobs:
     outputs:
       widget-backgroundcolour-branch: ${{ steps.get-widgets.outputs.WIDGET-BACKGROUNDCOLOUR-BRANCH }}
       widget-fontface-branch: ${{ steps.get-widgets.outputs.WIDGET-FONTFACE-BRANCH }}
+      widget-fontkerning-branch: ${{ steps.get-widgets.outputs.WIDGET-FONTKERNING-BRANCH }}
       widget-fontsize-branch: ${{ steps.get-widgets.outputs.WIDGET-FONTSIZE-BRANCH }}
+      widget-imagevisibility-branch: ${{ steps.get-widgets.outputs.WIDGET-IMAGEVISIBILITY-BRANCH }}
+      widget-letterspacing-branch: ${{ steps.get-widgets.outputs.WIDGET-LETTERSPACING-BRANCH }}
+      widget-lineheight-branch: ${{ steps.get-widgets.outputs.WIDGET-LINEHEIGHT-BRANCH }}
       widget-textcolour-branch: ${{ steps.get-widgets.outputs.WIDGET-TEXTCOLOUR-BRANCH }}
     steps:
       - id: get-widgets
         run: |
           echo WIDGET-BACKGROUNDCOLOUR-BRANCH="${{ inputs.widget-backgroundcolour-branch || needs.default-widget-versions.outputs.widget-backgroundcolour-branch }}"
           echo WIDGET-FONTFACE-BRANCH="${{ inputs.widget-fontface-branch || needs.default-widget-versions.outputs.widget-fontface-branch }}"
+          echo WIDGET-FONTKERNING-BRANCH="${{ inputs.widget-fontkerning-branch || needs.default-widget-versions.outputs.widget-fontkerning-branch }}"
           echo WIDGET-FONTSIZE-BRANCH="${{ inputs.widget-fontsize-branch || needs.default-widget-versions.outputs.widget-fontsize-branch }}"
+          echo WIDGET-IMAGEVISIBILITY-BRANCH="${{ inputs.widget-imagevisibility-branch || needs.default-widget-versions.outputs.widget-imagevisibility-branch }}"
+          echo WIDGET-LETTERSPACING-BRANCH="${{ inputs.widget-letterspacing-branch || needs.default-widget-versions.outputs.widget-letterspacing-branch }}"
+          echo WIDGET-LINEHEIGHT-BRANCH="${{ inputs.widget-lineheight-branch || needs.default-widget-versions.outputs.widget-lineheight-branch }}"
           echo WIDGET-TEXTCOLOUR-BRANCH="${{ inputs.widget-textcolour-branch || needs.default-widget-versions.outputs.widget-textcolour-branch }}"
           echo WIDGET-BACKGROUNDCOLOUR-BRANCH="${{ inputs.widget-backgroundcolour-branch || needs.default-widget-versions.outputs.widget-backgroundcolour-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-FONTFACE-BRANCH="${{ inputs.widget-fontface-branch || needs.default-widget-versions.outputs.widget-fontface-branch }}" >> $GITHUB_OUTPUT
+          echo WIDGET-FONTKERNING-BRANCH="${{ inputs.widget-fontkerning-branch || needs.default-widget-versions.outputs.widget-fontkerning-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-FONTSIZE-BRANCH="${{ inputs.widget-fontsize-branch || needs.default-widget-versions.outputs.widget-fontsize-branch }}" >> $GITHUB_OUTPUT
+          echo WIDGET-IMAGEVISIBILITY-BRANCH="${{ inputs.widget-imagevisibility-branch || needs.default-widget-versions.outputs.widget-imagevisibility-branch }}" >> $GITHUB_OUTPUT
+          echo WIDGET-LETTERSPACING-BRANCH="${{ inputs.widget-letterspacing-branch || needs.default-widget-versions.outputs.widget-letterspacing-branch }}" >> $GITHUB_OUTPUT
+          echo WIDGET-LINEHEIGHT-BRANCH="${{ inputs.widget-lineheight-branch || needs.default-widget-versions.outputs.widget-lineheight-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-TEXTCOLOUR-BRANCH="${{ inputs.widget-textcolour-branch || needs.default-widget-versions.outputs.widget-textcolour-branch }}" >> $GITHUB_OUTPUT
 
   matrix-test:
@@ -193,24 +217,56 @@ jobs:
 
       - name: 'Checkout Widget: backgroundcolour'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'backgroundcolour' }}
         with:
           repository: ponlawat-w/moodle-accessibility_backgroundcolour
           path: plugin/widgets/backgroundcolour
           ref: ${{ inputs.widget-backgroundcolour-branch }}
       - name: 'Checkout Widget: fontface'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'fontface' }}
         with:
           repository: ponlawat-w/moodle-accessibility_fontface
           path: plugin/widgets/fontface
           ref: ${{ inputs.widget-fontface-branch }}
+      - name: 'Checkout Widget: fontkerning'
+        uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'fontkerning' }}
+        with:
+          repository: ponlawat-w/moodle-accessibility_fontkerning
+          path: plugin/widgets/fontkerning
+          ref: ${{ inputs.widget-fontkerning-branch }}
       - name: 'Checkout Widget: fontsize'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'fontsize' }}
         with:
           repository: ponlawat-w/moodle-accessibility_fontsize
           path: plugin/widgets/fontsize
           ref: ${{ inputs.widget-fontsize-branch }}
+      - name: 'Checkout Widget: imagevisibility'
+        uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'imagevisibility' }}
+        with:
+          repository: ponlawat-w/moodle-accessibility_imagevisibility
+          path: plugin/widgets/imagevisibility
+          ref: ${{ inputs.widget-imagevisibility-branch }}
+      - name: 'Checkout Widget: letterspacing'
+        uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'letterspacing' }}
+        with:
+          repository: ponlawat-w/moodle-accessibility_letterspacing
+          path: plugin/widgets/letterspacing
+          ref: ${{ inputs.widget-letterspacing-branch }}
+      - name: 'Checkout Widget: lineheight'
+        uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'lineheight' }}
+        with:
+          repository: ponlawat-w/moodle-accessibility_lineheight
+          path: plugin/widgets/lineheight
+          ref: ${{ inputs.widget-lineheight-branch }}
       - name: 'Checkout Widget: textcolour'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'textcolour' }}
         with:
           repository: ponlawat-w/moodle-accessibility_textcolour
           path: plugin/widgets/textcolour
