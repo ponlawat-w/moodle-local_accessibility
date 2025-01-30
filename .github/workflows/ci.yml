@@ -83,38 +83,6 @@ on:
         description: Branch of accessibility plugin
         type: string
         default: master
-      widget-backgroundcolour-branch:
-        description: Branch of background colour widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-fontface-branch:
-        description: Branch of font face widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-fontkerning-branch:
-        description: Branch of font kerning widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-fontsize-branch:
-        description: Branch of font size widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-imagevisibility-branch:
-        description: Branch of image visibility widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-letterspacing-branch:
-        description: Branch of letter spacing widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-lineheight-branch:
-        description: Branch of line height widget, latest release will be used if not provided
-        type: string
-        default: ''
-      widget-textcolour-branch:
-        description: Branch of text colour widget, latest release will be used if not provided
-        type: string
-        default: ''
       widget-additional:
         description: Repository name of additional widget to test
         type: string
@@ -249,48 +217,56 @@ jobs:
 
       - name: 'Checkout Widget: backgroundcolour'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'backgroundcolour' }}
         with:
           repository: ponlawat-w/moodle-accessibility_backgroundcolour
           path: plugin/widgets/backgroundcolour
           ref: ${{ inputs.widget-backgroundcolour-branch }}
       - name: 'Checkout Widget: fontface'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'fontface' }}
         with:
           repository: ponlawat-w/moodle-accessibility_fontface
           path: plugin/widgets/fontface
           ref: ${{ inputs.widget-fontface-branch }}
       - name: 'Checkout Widget: fontkerning'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'fontkerning' }}
         with:
           repository: ponlawat-w/moodle-accessibility_fontkerning
           path: plugin/widgets/fontkerning
           ref: ${{ inputs.widget-fontkerning-branch }}
       - name: 'Checkout Widget: fontsize'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'fontsize' }}
         with:
           repository: ponlawat-w/moodle-accessibility_fontsize
           path: plugin/widgets/fontsize
           ref: ${{ inputs.widget-fontsize-branch }}
       - name: 'Checkout Widget: imagevisibility'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'imagevisibility' }}
         with:
           repository: ponlawat-w/moodle-accessibility_imagevisibility
           path: plugin/widgets/imagevisibility
           ref: ${{ inputs.widget-imagevisibility-branch }}
       - name: 'Checkout Widget: letterspacing'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'letterspacing' }}
         with:
           repository: ponlawat-w/moodle-accessibility_letterspacing
           path: plugin/widgets/letterspacing
           ref: ${{ inputs.widget-letterspacing-branch }}
       - name: 'Checkout Widget: lineheight'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'lineheight' }}
         with:
           repository: ponlawat-w/moodle-accessibility_lineheight
           path: plugin/widgets/lineheight
           ref: ${{ inputs.widget-lineheight-branch }}
       - name: 'Checkout Widget: textcolour'
         uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'textcolour' }}
         with:
           repository: ponlawat-w/moodle-accessibility_textcolour
           path: plugin/widgets/textcolour
