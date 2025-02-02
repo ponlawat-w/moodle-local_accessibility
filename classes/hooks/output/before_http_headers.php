@@ -16,6 +16,8 @@
 
 namespace local_accessibility\hooks\output;
 
+require_once(__DIR__ . '/../../../lib.php');
+
 /**
  * Allow plugin to modify headers.
  *
