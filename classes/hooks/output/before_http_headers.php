@@ -16,6 +16,10 @@
 
 namespace local_accessibility\hooks\output;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once(__DIR__ . '/../../../lib.php');
+
 /**
  * Allow plugin to modify headers.
  *
