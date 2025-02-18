@@ -142,7 +142,7 @@ jobs:
           echo WIDGET-IMAGEVISIBILITY-BRANCH="${{ inputs.widget-imagevisibility-branch || needs.default-widget-versions.outputs.widget-imagevisibility-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-LETTERSPACING-BRANCH="${{ inputs.widget-letterspacing-branch || needs.default-widget-versions.outputs.widget-letterspacing-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-LINEHEIGHT-BRANCH="${{ inputs.widget-lineheight-branch || needs.default-widget-versions.outputs.widget-lineheight-branch }}" >> $GITHUB_OUTPUT
-          echo WIDGET-LINKHIGHLIGHT-BRANCH="${{ inputs.widget-linkhighlight-branch || needs.default-widget-versions.outputs.widget-lineheight-branch }}" >> $GITHUB_OUTPUT
+          echo WIDGET-LINKHIGHLIGHT-BRANCH="${{ inputs.widget-linkhighlight-branch || needs.default-widget-versions.outputs.widget-linkhighlight-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-TEXTCOLOUR-BRANCH="${{ inputs.widget-textcolour-branch || needs.default-widget-versions.outputs.widget-textcolour-branch }}" >> $GITHUB_OUTPUT
 
   matrix-test:
