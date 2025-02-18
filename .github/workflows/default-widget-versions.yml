@@ -8,15 +8,12 @@ on:
       widget-fontface-branch:
         description: Branch name of font face widget
         value: ${{ jobs.widget-versions.outputs.widget-fontface-branch }}
-      widget-fontsize-branch:
-        description: Branch name of font size widget
-        value: ${{ jobs.widget-versions.outputs.widget-fontsize-branch }}
-      widget-textcolour-branch:
-        description: Branch name of text colour widget
-        value: ${{ jobs.widget-versions.outputs.widget-textcolour-branch }}
       widget-fontkerning-branch:
         description: Branch name of font kerning widget
         value: ${{ jobs.widget-versions.outputs.widget-fontkerning-branch }}
+      widget-fontsize-branch:
+        description: Branch name of font size widget
+        value: ${{ jobs.widget-versions.outputs.widget-fontsize-branch }}
       widget-imagevisibility-branch:
         description: Branch name of image visibility widget
         value: ${{ jobs.widget-versions.outputs.widget-imagevisibility-branch }}
@@ -26,6 +23,12 @@ on:
       widget-lineheight-branch:
         description: Branch name of line height widget
         value: ${{ jobs.widget-versions.outputs.widget-lineheight-branch }}
+      widget-linkhighlight-branch:
+        description: Branch name of link highlight widget
+        value: ${{ jobs.widget-versions.outputs.widget-linkhighlight-branch }}
+      widget-textcolour-branch:
+        description: Branch name of text colour widget
+        value: ${{ jobs.widget-versions.outputs.widget-textcolour-branch }}
 jobs:
   widget-versions:
     name: Get default widget versions
@@ -38,6 +41,7 @@ jobs:
       widget-imagevisibility-branch: ${{ steps.widget-branches.outputs.WIDGET_IMAGEVISIBILITY_VERSION }}
       widget-letterspacing-branch: ${{ steps.widget-branches.outputs.WIDGET_LETTERSPACING_VERSION }}
       widget-lineheight-branch: ${{ steps.widget-branches.outputs.WIDGET_LINEHEIGHT_VERSION }}
+      widget-linkhighlight-branch: ${{ steps.widget-branches.outputs.WIDGET_LINKHIGHLIGHT_VERSION }}
       widget-textcolour-branch: ${{ steps.widget-branches.outputs.WIDGET_TEXTCOLOUR_VERSION }}
     steps:
       - name: Get widget version
@@ -52,6 +56,7 @@ jobs:
           echo WIDGET_IMAGEVISIBILITY_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_imagevisibility || echo '{"name":"release"}') >> $GITHUB_OUTPUT
           echo WIDGET_LETTERSPACING_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_letterspacing || echo '{"name":"release"}') >> $GITHUB_OUTPUT
           echo WIDGET_LINEHEIGHT_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_lineheight || echo '{"name":"release"}') >> $GITHUB_OUTPUT
+          echo WIDGET_LINKHIGHLIGHT_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_linkhighlight || echo '{"name":"release"}') >> $GITHUB_OUTPUT
           echo WIDGET_TEXTCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_textcolour || echo '{"name":"release"}') >> $GITHUB_OUTPUT
       - name: Get widget branch names
         id: widget-branches
@@ -63,4 +68,5 @@ jobs:
           echo "WIDGET_IMAGEVISIBILITY_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_IMAGEVISIBILITY_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
           echo "WIDGET_LETTERSPACING_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_LETTERSPACING_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
           echo "WIDGET_LINEHEIGHT_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_LINEHEIGHT_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
+          echo "WIDGET_LINKHIGHLIGHT_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_LINKHIGHLIGHT_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
           echo "WIDGET_TEXTCOLOUR_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_TEXTCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
