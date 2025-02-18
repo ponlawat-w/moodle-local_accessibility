@@ -85,6 +85,12 @@ jobs:
           repository: ponlawat-w/moodle-accessibility_lineheight
           path: widgets/lineheight
           ref: ${{ needs.ci.outputs.widget-lineheight-branch }}
+      - name: 'Checkout Widget: linkhighlight'
+        uses: actions/checkout@v4
+        with:
+          repository: ponlawat-w/moodle-accessibility_linkhighlight
+          path: widgets/linkhighlight
+          ref: ${{ needs.ci.outputs.widget-linkhighlight-branch }}
       - name: 'Checkout Widget: textcolour'
         uses: actions/checkout@v4
         with:
@@ -107,6 +113,8 @@ jobs:
           rm -rf widgets/letterspacing/.github
           rm -rf widgets/lineheight/.git
           rm -rf widgets/lineheight/.github
+          rm -rf widgets/linkhighlight/.git
+          rm -rf widgets/linkhighlight/.github
           rm -rf widgets/textcolour/.git
           rm -rf widgets/textcolour/.github
           git add -A
