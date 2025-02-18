@@ -54,7 +54,7 @@ class before_footer_html_generation {
                 'hasicon' => file_exists(
                     $CFG->dirroot . '/local/accessibility/widgets/' . $widgetinstance->getname()
                     . '/pix/icon.svg'
-                )
+                ),
             ];
         }
         $panel = $OUTPUT->render_from_template('local_accessibility/panel', [

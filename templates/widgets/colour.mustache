@@ -18,18 +18,16 @@
 
     Context variables required for this template:
     * name - full name of the widget plugin
-    * id - widget ID for passing to colourpicker, the same with name is recommended
     * value - default value
 
     Example context (json):
     {
         "name": "accessibility_backgroundcolour",
-        "id": "accessibility_backgroundcolour",
         "value": ""
     }
 }}
 <div class="container" id="{{name}}-container">
-    {{> core_admin/setting_configcolourpicker }}
+    <input type="color" name="color" value="{{value}}" />
     <button type="button" class="btn btn-light {{name}}-resetbtn">
         {{#str}} reset, local_accessibility {{/str}}
     </button>
