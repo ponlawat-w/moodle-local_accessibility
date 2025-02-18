@@ -46,12 +46,12 @@ export const init = (widget, savewidgetname, stylename, bodyclassname = undefine
             return;
         }
 
-        const $picker = $container.find(`#${widget}-picker`);
-        if (!$picker.length) {
+        const $input = $container.find(`input[name=color]`);
+        if (!$input.length) {
             return;
         }
-        $picker.on('change input propertychange', async() => {
-            const colour = $picker.val();
+        $input.on('change input', async() => {
+            const colour = $input.val();
             if (!colour) {
                 return;
             }
@@ -68,17 +68,10 @@ export const init = (widget, savewidgetname, stylename, bodyclassname = undefine
             await saveWidgetConfig(savewidgetname, colour);
         });
 
-        const $img = $container.find('img.colourdialogue');
-        if ($img.length) {
-            $img.on('click', () => {
-                $picker.trigger('change');
-            });
-        }
-
         const $resetbtn = $container.find(`.${widget}-resetbtn`);
         if ($resetbtn.length) {
             $resetbtn.on('click', async() => {
-                $picker.val('');
+                $input.val('');
                 revokedefault();
                 for (const element of [...$(selector)]) {
                     const $element = $(element);

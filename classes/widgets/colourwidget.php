@@ -30,7 +30,7 @@ namespace local_accessibility\widgets;
 abstract class colourwidget extends widgetbase {
 
     /** @var string $class Colourpicker is big, so it takes the whole row */
-    protected $class = 'col-12';
+    protected $class = 'col-6';
 
     /**
      * Get content
@@ -40,17 +40,9 @@ abstract class colourwidget extends widgetbase {
     public function getcontent() {
         global $OUTPUT, $PAGE;
         /** @var \core_renderer $OUTPUT */ $OUTPUT; /** @var \moodle_page $PAGE */ $PAGE;
-        $id = $this->getfullname() . '-picker';
-        $icon = new \pix_icon('i/loading', '', 'moodle', ['class' => 'loadingicon']);
-        $PAGE->requires->js_init_call('M.util.init_colour_picker', [$id, true]);
         return $OUTPUT->render_from_template('local_accessibility/widgets/colour', [
-            'id' => $id,
             'name' => $this->getfullname(),
-            'value' => '',
-            'icon' => $icon->export_for_template($OUTPUT),
-            'haspreviewconfig' => false,
-            'forceltr' => false,
-            'readonly' => false,
+            'value' => $this->getuserconfig(),
         ]);
     }
 }

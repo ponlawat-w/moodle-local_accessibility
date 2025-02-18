@@ -32,7 +32,7 @@ class before_footer_html_generation {
      * @param \core\hook\output\before_footer_html_generation $hook
      */
     public static function callback(\core\hook\output\before_footer_html_generation $hook): void {
-        global $OUTPUT, $PAGE;
+        global $OUTPUT, $PAGE, $CFG;
         /** @var \core_renderer $OUTPUT */ $OUTPUT; /** @var \moodle_page $PAGE */ $PAGE;
 
         $widgetinstances = local_accessibility_getwidgetinstances();
@@ -51,6 +51,10 @@ class before_footer_html_generation {
                 'title' => $widgetinstance->gettitle(),
                 'class' => $widgetinstance->getclass(),
                 'content' => $widgetinstance->getcontent(),
+                'hasicon' => file_exists(
+                    $CFG->dirroot . '/local/accessibility/widgets/' . $widgetinstance->getname()
+                    . '/pix/icon.svg'
+                ),
             ];
         }
         $panel = $OUTPUT->render_from_template('local_accessibility/panel', [
