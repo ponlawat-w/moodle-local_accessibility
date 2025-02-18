@@ -54,7 +54,12 @@
                 {{#widgets}}
                     <div class="{{class}} card">
                         <div class="card-body {{name}}-container">
-                            <p><strong>{{title}}</strong></p>
+                            <p>
+                                <strong>
+                                    {{#hasicon}}{{#pix}} icon, accessibility_{{name}}, {{title}} {{/pix}}{{/hasicon}}
+                                    {{title}}
+                                </strong>
+                            </p>
                             {{{content}}}
                         </div>
                     </div>
