@@ -24,9 +24,17 @@ along with Moodle.  If not, see <https://www.gnu.org/licenses/>. */
     bottom: 5rem;
     right: 2rem;
 }
+body.dir-rtl .local-accessibility-buttoncontainer {
+    right: unset;
+    left: 2rem;
+}
 
 #page.drawers.show-drawer-right .local-accessibility-buttoncontainer {
     right: calc(315px + 2rem);
+}
+body.dir-rtl #page.drawers.show-drawer-right .local-accessibility-buttoncontainer {
+    right: unset;
+    left: calc(315px + 2rem);
 }
 
 #local-accessibility-buttoncontainer button {
@@ -46,6 +54,10 @@ along with Moodle.  If not, see <https://www.gnu.org/licenses/>. */
     right: 2rem;
     z-index: 1040;
     box-shadow: 0 0 5px #000;
+}
+body.dir-rtl .local-accessibility-panel {
+    right: unset;
+    left: 2rem;
 }
 
 .local-accessibility-panel > .card-body {
