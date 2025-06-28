@@ -47,10 +47,20 @@ export const init = (widget, savewidgetname, stylename, bodyclassname = undefine
         }
 
         const $input = $container.find(`input[name=color]`);
+        let inputfocused = false;
         if (!$input.length) {
             return;
         }
+        $input.on('focus', () => {
+            inputfocused = true;
+        });
+        $input.on('blur', () => {
+            inputfocused = false;
+        });
         $input.on('change input', async() => {
+            if (!inputfocused) {
+                return;
+            }
             const colour = $input.val();
             if (!colour) {
                 return;
