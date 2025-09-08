@@ -57,7 +57,7 @@ function local_accessibility_addwidgetstodb($enablenewplugin = true) {
     }
 
     $widgets = $DB->get_records('local_accessibility_widgets', [], 'sequence ASC', 'id,name,sequence');
-    $widgetnames = array_map(function($record) {
+    $widgetnames = array_map(function ($record) {
         return $record->name;
     }, $widgets);
     $i = count($widgets) ? array_values($widgets)[count($widgets) - 1]->sequence : 0;
@@ -116,7 +116,7 @@ function local_accessibility_getenabledwidgets() {
  * @return string[]
  */
 function local_accessibility_getenabledwidgetnames() {
-    return array_map(function($record) {
+    return array_map(function ($record) {
         return $record->name;
     }, local_accessibility_getenabledwidgets());
 }
@@ -247,7 +247,7 @@ function local_accessibility_movedown($widget) {
  */
 function local_accessibility_getwidgetinstances() {
     $enabledwidgetnames = local_accessibility_getenabledwidgetnames();
-    return array_map(function($name) {
+    return array_map(function ($name) {
         return local_accessibility_getwidgetinstancebyname($name);
     }, $enabledwidgetnames);
 }
@@ -260,7 +260,7 @@ function local_accessibility_getwidgetinstances() {
  */
 function local_accessibility_getwidgetinstancebyname($widgetname) {
     global $CFG;
-    $classname = 'accessibility_' . $widgetname. '\\' . $widgetname;
+    $classname = 'accessibility_' . $widgetname . '\\' . $widgetname;
     if (!class_exists($classname)) {
         throw new moodle_exception("Class {$classname} does not exist");
     }
@@ -294,7 +294,8 @@ function local_accessibility_before_http_headers() {
  */
 function local_accessibility_before_footer() {
     global $OUTPUT, $PAGE;
-    /** @var \core_renderer $OUTPUT */ $OUTPUT; /** @var \moodle_page $PAGE */ $PAGE;
+    /** @var \core_renderer $OUTPUT */ $OUTPUT;
+    /** @var \moodle_page $PAGE */ $PAGE;
 
     $widgetinstances = local_accessibility_getwidgetinstances();
     if (!count($widgetinstances)) {

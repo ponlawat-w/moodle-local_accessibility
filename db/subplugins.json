@@ -1,5 +1,8 @@
 {
     "plugintypes": {
         "accessibility": "local\/accessibility\/widgets"
+    },
+    "subplugintypes": {
+        "accessibility": "widgets"
     }
 }

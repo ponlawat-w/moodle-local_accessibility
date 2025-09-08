@@ -33,12 +33,11 @@ use core_privacy\local\request\writer;
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements
-    // This plugin has data.
-    \core_privacy\local\metadata\provider,
     // This plugin has some sitewide user preferences to export.
     core_userlist_provider,
+    // This plugin has data.
+    \core_privacy\local\metadata\provider,
     \core_privacy\local\request\plugin\provider {
-
     /**
      * Get the list of contexts that contain user information for the specified user.
      *
@@ -64,11 +63,15 @@ class provider implements
         if (!$contextlist->valid() || $contextlist->current()->contextlevel != CONTEXT_SYSTEM) {
             return;
         }
-        $rs = $DB->get_records_sql('SELECT c.widget, c.configvalue, c.userid
+        $rs = $DB->get_records_sql(
+            <<<SQL
+                SELECT c.widget, c.configvalue, c.userid
                 FROM {local_accessibility_configs} c
                 WHERE c.userid = :userid
-                ORDER BY c.widget, c.configvalue, c.userid',
-            ['userid' => $user->id]);
+                ORDER BY c.widget, c.configvalue, c.userid
+            SQL,
+            ['userid' => $user->id]
+        );
         if (count($rs) == 0) {
             return;
         }

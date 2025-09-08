@@ -40,6 +40,10 @@ on:
         description: Branch of link highlight widget, latest release will be used if not provided
         type: string
         default: ''
+      widget-textalignment-branch:
+        description: Branch of text alignment widget, latest release will be used if not provided
+        type: string
+        default: ''
       widget-textcolour-branch:
         description: Branch of text colour widget, latest release will be used if not provided
         type: string
@@ -81,6 +85,9 @@ on:
       widget-linkhighlight-branch:
         description: Branch of link highlight widget
         value: ${{ jobs.set-widget-versions.outputs.widget-linkhighlight-branch }}
+      widget-textalignment-branch:
+        description: Branch of text alignemnt widget
+        value: ${{ jobs.set-widget-versions.outputs.widget-textalignment-branch }}
       widget-textcolour-branch:
         description: Branch of text colour widget
         value: ${{ jobs.set-widget-versions.outputs.widget-textcolour-branch }}
@@ -122,6 +129,7 @@ jobs:
       widget-letterspacing-branch: ${{ steps.get-widgets.outputs.WIDGET-LETTERSPACING-BRANCH }}
       widget-lineheight-branch: ${{ steps.get-widgets.outputs.WIDGET-LINEHEIGHT-BRANCH }}
       widget-linkhighlight-branch: ${{ steps.get-widgets.outputs.WIDGET-LINKHIGHLIGHT-BRANCH }}
+      widget-textalignment-branch: ${{ steps.get-widgets.outputs.WIDGET-TEXTALIGNMENT-BRANCH }}
       widget-textcolour-branch: ${{ steps.get-widgets.outputs.WIDGET-TEXTCOLOUR-BRANCH }}
     steps:
       - id: get-widgets
@@ -134,6 +142,7 @@ jobs:
           echo WIDGET-LETTERSPACING-BRANCH="${{ inputs.widget-letterspacing-branch || needs.default-widget-versions.outputs.widget-letterspacing-branch }}"
           echo WIDGET-LINEHEIGHT-BRANCH="${{ inputs.widget-lineheight-branch || needs.default-widget-versions.outputs.widget-lineheight-branch }}"
           echo WIDGET-LINKHIGHLIGHT-BRANCH="${{ inputs.widget-linkhighlight-branch || needs.default-widget-versions.outputs.widget-linkhighlight-branch }}"
+          echo WIDGET-TEXTALIGNMENT-BRANCH="${{ inputs.widget-textalignment-branch || needs.default-widget-versions.outputs.widget-textalignment-branch }}"
           echo WIDGET-TEXTCOLOUR-BRANCH="${{ inputs.widget-textcolour-branch || needs.default-widget-versions.outputs.widget-textcolour-branch }}"
           echo WIDGET-BACKGROUNDCOLOUR-BRANCH="${{ inputs.widget-backgroundcolour-branch || needs.default-widget-versions.outputs.widget-backgroundcolour-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-FONTFACE-BRANCH="${{ inputs.widget-fontface-branch || needs.default-widget-versions.outputs.widget-fontface-branch }}" >> $GITHUB_OUTPUT
@@ -143,11 +152,12 @@ jobs:
           echo WIDGET-LETTERSPACING-BRANCH="${{ inputs.widget-letterspacing-branch || needs.default-widget-versions.outputs.widget-letterspacing-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-LINEHEIGHT-BRANCH="${{ inputs.widget-lineheight-branch || needs.default-widget-versions.outputs.widget-lineheight-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-LINKHIGHLIGHT-BRANCH="${{ inputs.widget-linkhighlight-branch || needs.default-widget-versions.outputs.widget-linkhighlight-branch }}" >> $GITHUB_OUTPUT
+          echo WIDGET-TEXTALIGNMENT-BRANCH="${{ inputs.widget-textalignment-branch || needs.default-widget-versions.outputs.widget-textalignment-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-TEXTCOLOUR-BRANCH="${{ inputs.widget-textcolour-branch || needs.default-widget-versions.outputs.widget-textcolour-branch }}" >> $GITHUB_OUTPUT
 
   matrix-test:
 
-    name: Test ${{ (matrix.moodle == 'MOODLE_400_STABLE' && 'M4.0') || (matrix.moodle == 'MOODLE_401_STABLE' && 'M4.1') || (matrix.moodle == 'MOODLE_402_STABLE' && 'M4.2') || (matrix.moodle == 'MOODLE_403_STABLE' && 'M4.3') || (matrix.moodle == 'MOODLE_404_STABLE' && 'M4.4') || (matrix.moodle == 'MOODLE_405_STABLE' && 'M4.5') || matrix.moodle }} P${{ matrix.php }} ${{ matrix.db }}
+    name: Test ${{ (matrix.moodle == 'MOODLE_400_STABLE' && 'M4.0') || (matrix.moodle == 'MOODLE_401_STABLE' && 'M4.1') || (matrix.moodle == 'MOODLE_402_STABLE' && 'M4.2') || (matrix.moodle == 'MOODLE_403_STABLE' && 'M4.3') || (matrix.moodle == 'MOODLE_404_STABLE' && 'M4.4') || (matrix.moodle == 'MOODLE_405_STABLE' && 'M4.5') || (matrix.moodle == 'MOODLE_500_STABLE' && 'M5.0') || matrix.moodle }} P${{ matrix.php }} ${{ matrix.db }}
     runs-on: ubuntu-latest
 
     needs: set-widget-versions
@@ -170,15 +180,18 @@ jobs:
             db: pgsql
           - moodle: MOODLE_404_STABLE
             php: 8.3
-            db: mysqli
-          - moodle: MOODLE_404_STABLE
-            php: 8.3
             db: pgsql
           - moodle: MOODLE_405_STABLE
             php: 8.3
             db: mysqli
           - moodle: MOODLE_405_STABLE
             php: 8.3
+            db: pgsql
+          - moodle: MOODLE_500_STABLE
+            php: 8.4
+            db: mysqli
+          - moodle: MOODLE_500_STABLE
+            php: 8.4
             db: pgsql
 
     services:
@@ -212,7 +225,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions:
+          extensions: ''
           ini-values: max_input_vars=5000
           # If you are not using code coverage, keep "none". Otherwise, use "pcov" (Moodle 3.10 and up) or "xdebug".
           # If you try to use code coverage with "none", it will fallback to phpdbg (which has known problems).
@@ -281,6 +294,13 @@ jobs:
           repository: ponlawat-w/moodle-accessibility_linkhighlight
           path: plugin/widgets/linkhighlight
           ref: ${{ inputs.widget-linkhighlight-branch }}
+      - name: 'Checkout Widget: textalignment'
+        uses: actions/checkout@v4
+        if: ${{ inputs.widget-additional-name != 'textalignment' }}
+        with:
+          repository: ponlawat-w/moodle-accessibility_textalignment
+          path: plugin/widgets/textalignment
+          ref: ${{ inputs.widget-textalignment-branch }}
       - name: 'Checkout Widget: textcolour'
         uses: actions/checkout@v4
         if: ${{ inputs.widget-additional-name != 'textcolour' }}
@@ -374,3 +394,4 @@ jobs:
         if: ${{ cancelled() }}
         shell: bash
         run: exit 1
+

@@ -52,15 +52,18 @@ if ($action) {
     $widget = $DB->get_record('local_accessibility_widgets', ['id' => $id, 'enabled' => 1], '*', MUST_EXIST);
     if ($action == 'moveup') {
         local_accessibility_moveup($widget);
-        redirect($url); exit;
+        redirect($url);
+        exit;
     }
     if ($action == 'movedown') {
         local_accessibility_movedown($widget);
-        redirect($url); exit;
+        redirect($url);
+        exit;
     }
     if ($action == 'disable') {
         local_accessibility_disablewidget($widget->name);
-        redirect($url); exit;
+        redirect($url);
+        exit;
     }
     throw new moodle_exception("Inavlid action {$action}");
 }

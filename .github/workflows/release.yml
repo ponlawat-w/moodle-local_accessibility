@@ -91,6 +91,12 @@ jobs:
           repository: ponlawat-w/moodle-accessibility_linkhighlight
           path: widgets/linkhighlight
           ref: ${{ needs.ci.outputs.widget-linkhighlight-branch }}
+      - name: 'Checkout Widget: textalignment'
+        uses: actions/checkout@v4
+        with:
+          repository: ponlawat-w/moodle-accessibility_textalignment
+          path: widgets/textalignment
+          ref: ${{ needs.ci.outputs.widget-textalignment-branch }}
       - name: 'Checkout Widget: textcolour'
         uses: actions/checkout@v4
         with:
@@ -115,6 +121,8 @@ jobs:
           rm -rf widgets/lineheight/.github
           rm -rf widgets/linkhighlight/.git
           rm -rf widgets/linkhighlight/.github
+          rm -rf widgets/textalignment/.git
+          rm -rf widgets/textalignment/.github
           rm -rf widgets/textcolour/.git
           rm -rf widgets/textcolour/.github
           git add -A
