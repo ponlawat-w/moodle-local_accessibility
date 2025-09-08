@@ -142,6 +142,7 @@ jobs:
           echo WIDGET-LETTERSPACING-BRANCH="${{ inputs.widget-letterspacing-branch || needs.default-widget-versions.outputs.widget-letterspacing-branch }}"
           echo WIDGET-LINEHEIGHT-BRANCH="${{ inputs.widget-lineheight-branch || needs.default-widget-versions.outputs.widget-lineheight-branch }}"
           echo WIDGET-LINKHIGHLIGHT-BRANCH="${{ inputs.widget-linkhighlight-branch || needs.default-widget-versions.outputs.widget-linkhighlight-branch }}"
+          echo WIDGET-TEXTALIGNMENT-BRANCH="${{ inputs.widget-textalignment-branch || needs.default-widget-versions.outputs.widget-textalignment-branch }}"
           echo WIDGET-TEXTCOLOUR-BRANCH="${{ inputs.widget-textcolour-branch || needs.default-widget-versions.outputs.widget-textcolour-branch }}"
           echo WIDGET-BACKGROUNDCOLOUR-BRANCH="${{ inputs.widget-backgroundcolour-branch || needs.default-widget-versions.outputs.widget-backgroundcolour-branch }}" >> $GITHUB_OUTPUT
           echo WIDGET-FONTFACE-BRANCH="${{ inputs.widget-fontface-branch || needs.default-widget-versions.outputs.widget-fontface-branch }}" >> $GITHUB_OUTPUT
@@ -393,3 +394,4 @@ jobs:
         if: ${{ cancelled() }}
         shell: bash
         run: exit 1
+
