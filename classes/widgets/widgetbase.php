@@ -30,7 +30,6 @@ use stdClass;
  * Base class for widgets
  */
 abstract class widgetbase {
-
     /** @var string $title widget title */
     protected $title;
 
@@ -105,7 +104,8 @@ abstract class widgetbase {
         global $SESSION;
         /** @var stdClass $SESSION */ $SESSION;
 
-        if (!isset($SESSION->local_accessibility)
+        if (
+            !isset($SESSION->local_accessibility)
             || !isset($SESSION->local_accessibility->guestconfigs)
             || !isset($SESSION->local_accessibility->guestconfigs->{$this->name})
             || is_null($SESSION->local_accessibility->guestconfigs->{$this->name})
@@ -147,7 +147,8 @@ abstract class widgetbase {
      */
     public function getuserconfig() {
         global $DB, $USER;
-        /** @var \moodle_database $DB */ $DB; /** @var stdClass $USER */ $USER;
+        /** @var \moodle_database $DB */ $DB;
+        /** @var stdClass $USER */ $USER;
 
         if (!$USER || !$USER->id) {
             return $this->getguestconfig();
@@ -165,7 +166,8 @@ abstract class widgetbase {
      */
     public function setuserconfig($value) {
         global $DB, $USER;
-        /** @var \moodle_database $DB */ $DB; /** @var stdClass $USER */ $USER;
+        /** @var \moodle_database $DB */ $DB;
+        /** @var stdClass $USER */ $USER;
 
         if (!$USER || !$USER->id) {
             return $this->setguestconfig($value);
