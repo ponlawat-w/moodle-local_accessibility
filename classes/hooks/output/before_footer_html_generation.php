@@ -33,7 +33,8 @@ class before_footer_html_generation {
      */
     public static function callback(\core\hook\output\before_footer_html_generation $hook): void {
         global $OUTPUT, $PAGE, $CFG;
-        /** @var \core_renderer $OUTPUT */ $OUTPUT; /** @var \moodle_page $PAGE */ $PAGE;
+        /** @var \core_renderer $OUTPUT */ $OUTPUT;
+        /** @var \moodle_page $PAGE */ $PAGE;
 
         $widgetinstances = local_accessibility_getwidgetinstances();
         if (!count($widgetinstances)) {

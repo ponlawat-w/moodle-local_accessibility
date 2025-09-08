@@ -26,7 +26,7 @@ namespace local_accessibility\external;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/externallib.php');
+require_once($CFG->libdir . '/externallib.php');
 
 if ($CFG->version < 2022112999) { // Moodle < 4.2.
     class_alias('\\external_api', '\\core_external\\external_api');
@@ -39,7 +39,6 @@ if ($CFG->version < 2022112999) { // Moodle < 4.2.
  * External API class to save user's widget config
  */
 class savewidgetconfig extends \core_external\external_api {
-
     /**
      * API parameter descriptions
      *
@@ -48,10 +47,18 @@ class savewidgetconfig extends \core_external\external_api {
     public static function execute_parameters(): \core_external\external_function_parameters {
         return new \core_external\external_function_parameters([
             'widget' => new \core_external\external_value(
-                PARAM_ALPHANUMEXT, 'Widget Name', VALUE_REQUIRED, '', NULL_NOT_ALLOWED
+                PARAM_ALPHANUMEXT,
+                'Widget Name',
+                VALUE_REQUIRED,
+                '',
+                NULL_NOT_ALLOWED
             ),
             'configvalue' => new \core_external\external_value(
-                PARAM_TEXT, 'Configuration Value', VALUE_DEFAULT, null, NULL_ALLOWED
+                PARAM_TEXT,
+                'Configuration Value',
+                VALUE_DEFAULT,
+                null,
+                NULL_ALLOWED
             ),
         ]);
     }
