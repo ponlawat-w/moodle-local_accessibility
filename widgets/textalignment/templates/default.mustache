@@ -1,0 +1,68 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template accessibility_textalignment
+
+    Widget content
+
+    Example context (json):
+    {}
+}}
+<div class="container" id="accessibility_textalignment-container">
+    <button type="button" class="btn btn-light accessibility_textalignment-resetbtn w-100">
+        {{#str}} reset, local_accessibility {{/str}}
+    </button>
+    <div class="btn-group w-100">
+        <button
+            type="button"
+            class="btn btn-light accessibility_textalignment-optionbtn {{#left}}active{{/left}}"
+            data-value="left"
+        >
+            <i class="fa-solid fa-align-left"></i>
+            <span>
+                {{#str}} left, accessibility_textalignment {{/str}}
+            </span>
+        </button>
+        <button
+            type="button"
+            class="btn btn-light accessibility_textalignment-optionbtn {{#center}}active{{/center}}"
+            data-value="center"
+        >
+            <i class="fa-solid fa-align-center"></i>
+            <span>
+                {{#str}} center, accessibility_textalignment {{/str}}
+            </span>
+        </button>
+        <button
+            type="button"
+            class="btn btn-light accessibility_textalignment-optionbtn {{#right}}active{{/right}}"
+            data-value="right"
+        >
+            <i class="fa-solid fa-align-right"></i>
+            <span>
+                {{#str}} right, accessibility_textalignment {{/str}}
+            </span>
+        </button>
+        <button
+            type="button"
+            class="btn btn-light accessibility_textalignment-optionbtn {{#justify}}active{{/justify}}"
+            data-value="justify"
+        >
+            <i class="fa-solid fa-align-justify"></i>
+            <span>
+                {{#str}} justify, accessibility_textalignment {{/str}}
+            </span>
+        </button>
+    </div>
+</div>
