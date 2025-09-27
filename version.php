@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_accessibility';
-$plugin->release = '2.3.0';
-$plugin->version = 2025090800;
+$plugin->release = '2.4.0';
+$plugin->version = 2025092700;
 $plugin->requires = 2022041900; // Moodle >= 4.0.
 $plugin->supported = [400, 405];
 $plugin->maturity = MATURITY_STABLE;

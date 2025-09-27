@@ -47,7 +47,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.0
-          extensions:
           ini-values: max_input_vars=5000
           coverage: none
       - name: Checkout

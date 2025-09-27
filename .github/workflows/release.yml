@@ -91,6 +91,12 @@ jobs:
           repository: ponlawat-w/moodle-accessibility_linkhighlight
           path: widgets/linkhighlight
           ref: ${{ needs.ci.outputs.widget-linkhighlight-branch }}
+      - name: 'Checkout Widget: paragraphwidth'
+        uses: actions/checkout@v4
+        with:
+          repository: ponlawat-w/moodle-accessibility_paragraphwidth
+          path: widgets/paragraphwidth
+          ref: ${{ needs.ci.outputs.widget-paragraphwidth-branch }}
       - name: 'Checkout Widget: textalignment'
         uses: actions/checkout@v4
         with:
@@ -121,6 +127,8 @@ jobs:
           rm -rf widgets/lineheight/.github
           rm -rf widgets/linkhighlight/.git
           rm -rf widgets/linkhighlight/.github
+          rm -rf widgets/paragraphwidth/.git
+          rm -rf widgets/paragraphwidth/.github
           rm -rf widgets/textalignment/.git
           rm -rf widgets/textalignment/.github
           rm -rf widgets/textcolour/.git

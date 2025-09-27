@@ -26,6 +26,9 @@ on:
       widget-linkhighlight-branch:
         description: Branch name of link highlight widget
         value: ${{ jobs.widget-versions.outputs.widget-linkhighlight-branch }}
+      widget-paragraphwidth-branch:
+        description: Branch name of paragraph width widget
+        value: ${{ jobs.widget-versions.outputs.widget-paragraphwidth-branch }}
       widget-textalignment-branch:
         description: Branch name of text alignment widget
         value: ${{ jobs.widget-versions.outputs.widget-textalignment-branch }}
@@ -45,6 +48,7 @@ jobs:
       widget-letterspacing-branch: ${{ steps.widget-branches.outputs.WIDGET_LETTERSPACING_VERSION }}
       widget-lineheight-branch: ${{ steps.widget-branches.outputs.WIDGET_LINEHEIGHT_VERSION }}
       widget-linkhighlight-branch: ${{ steps.widget-branches.outputs.WIDGET_LINKHIGHLIGHT_VERSION }}
+      widget-paragraphwidth-branch: ${{ steps.widget-branches.outputs.WIDGET_PARAGRAPHWIDTH_VERSION }}
       widget-textalignment-branch: ${{ steps.widget-branches.outputs.WIDGET_TEXTALIGNMENT_VERSION }}
       widget-textcolour-branch: ${{ steps.widget-branches.outputs.WIDGET_TEXTCOLOUR_VERSION }}
     steps:
@@ -61,6 +65,7 @@ jobs:
           echo WIDGET_LETTERSPACING_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_letterspacing || echo '{"name":"release"}') >> $GITHUB_OUTPUT
           echo WIDGET_LINEHEIGHT_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_lineheight || echo '{"name":"release"}') >> $GITHUB_OUTPUT
           echo WIDGET_LINKHIGHLIGHT_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_linkhighlight || echo '{"name":"release"}') >> $GITHUB_OUTPUT
+          echo WIDGET_PARAGRAPHWIDTH_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_paragraphwidth || echo '{"name":"release"}') >> $GITHUB_OUTPUT
           echo WIDGET_TEXTALIGNMENT_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_textalignment || echo '{"name":"release"}') >> $GITHUB_OUTPUT
           echo WIDGET_TEXTCOLOUR_VERSION_JSON=$(gh release view --json name -R ponlawat-w/moodle-accessibility_textcolour || echo '{"name":"release"}') >> $GITHUB_OUTPUT
       - name: Get widget branch names
@@ -74,5 +79,6 @@ jobs:
           echo "WIDGET_LETTERSPACING_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_LETTERSPACING_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
           echo "WIDGET_LINEHEIGHT_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_LINEHEIGHT_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
           echo "WIDGET_LINKHIGHLIGHT_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_LINKHIGHLIGHT_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
+          echo "WIDGET_PARAGRAPHWIDTH_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_PARAGRAPHWIDTH_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
           echo "WIDGET_TEXTALIGNMENT_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_TEXTALIGNMENT_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
           echo "WIDGET_TEXTCOLOUR_VERSION=${{ fromJson(steps.get-widget-versions.outputs.WIDGET_TEXTCOLOUR_VERSION_JSON).name }}" >> $GITHUB_OUTPUT
