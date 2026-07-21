@@ -78,6 +78,7 @@ final class savewidgetconfig_test extends \advanced_testcase {
      */
     public function test_savewidgetconfig_guest(): void {
         $this->resetAfterTest(true);
+        $this->setGuestUser();
 
         $widget = local_accessibility_getwidgetinstancebyname('fontsize');
 

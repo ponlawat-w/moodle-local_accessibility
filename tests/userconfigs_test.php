@@ -72,6 +72,7 @@ final class userconfigs_test extends testcase {
      */
     public function test_guestconfig(): void {
         $this->resetAfterTest(true);
+        $this->setGuestUser();
 
         $widget = local_accessibility_getwidgetinstancebyname('fontsize');
 
