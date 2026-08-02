@@ -1,0 +1,125 @@
+/* This file is part of Moodle - https://moodle.org/
+
+Moodle is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Moodle is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Moodle.  If not, see <https://www.gnu.org/licenses/>. */
+/**
+ * Plugin version and other meta-data are defined here.
+ *
+ * @package     accessibility_lineheight
+ * @copyright   2025 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+body.accessibility-lineheight-50, body.accessibility-lineheight-50 * {
+    line-height: 0.50;
+}
+
+body.accessibility-lineheight-60, body.accessibility-lineheight-60 * {
+    line-height: 0.60;
+}
+
+body.accessibility-lineheight-70, body.accessibility-lineheight-70 * {
+    line-height: 0.70;
+}
+
+body.accessibility-lineheight-80, body.accessibility-lineheight-80 * {
+    line-height: 0.80;
+}
+
+body.accessibility-lineheight-90, body.accessibility-lineheight-90 * {
+    line-height: 0.90;
+}
+
+body.accessibility-lineheight-100, body.accessibility-lineheight-100 * {
+    line-height: 1.00;
+}
+
+body.accessibility-lineheight-110, body.accessibility-lineheight-110 * {
+    line-height: 1.10;
+}
+
+body.accessibility-lineheight-120, body.accessibility-lineheight-120 * {
+    line-height: 1.20;
+}
+
+body.accessibility-lineheight-130, body.accessibility-lineheight-130 * {
+    line-height: 1.30;
+}
+
+body.accessibility-lineheight-140, body.accessibility-lineheight-140 * {
+    line-height: 1.40;
+}
+
+body.accessibility-lineheight-150, body.accessibility-lineheight-150 * {
+    line-height: 1.50;
+}
+
+body.accessibility-lineheight-160, body.accessibility-lineheight-160 * {
+    line-height: 1.60;
+}
+
+body.accessibility-lineheight-170, body.accessibility-lineheight-170 * {
+    line-height: 1.70;
+}
+
+body.accessibility-lineheight-180, body.accessibility-lineheight-180 * {
+    line-height: 1.80;
+}
+
+body.accessibility-lineheight-190, body.accessibility-lineheight-190 * {
+    line-height: 1.90;
+}
+
+body.accessibility-lineheight-200, body.accessibility-lineheight-200 * {
+    line-height: 2.00;
+}
+
+body.accessibility-lineheight-210, body.accessibility-lineheight-210 * {
+    line-height: 2.10;
+}
+
+body.accessibility-lineheight-220, body.accessibility-lineheight-220 * {
+    line-height: 2.20;
+}
+
+body.accessibility-lineheight-230, body.accessibility-lineheight-230 * {
+    line-height: 2.30;
+}
+
+body.accessibility-lineheight-240, body.accessibility-lineheight-240 * {
+    line-height: 2.40;
+}
+
+body.accessibility-lineheight-250, body.accessibility-lineheight-250 * {
+    line-height: 2.50;
+}
+
+body.accessibility-lineheight-260, body.accessibility-lineheight-260 * {
+    line-height: 2.60;
+}
+
+body.accessibility-lineheight-270, body.accessibility-lineheight-270 * {
+    line-height: 2.70;
+}
+
+body.accessibility-lineheight-280, body.accessibility-lineheight-280 * {
+    line-height: 2.80;
+}
+
+body.accessibility-lineheight-290, body.accessibility-lineheight-290 * {
+    line-height: 2.90;
+}
+
+body.accessibility-lineheight-300, body.accessibility-lineheight-300 * {
+    line-height: 3.00;
+}

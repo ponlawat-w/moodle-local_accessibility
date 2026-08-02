@@ -1,0 +1,92 @@
+/* This file is part of Moodle - https://moodle.org/
+
+Moodle is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Moodle is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Moodle.  If not, see <https://www.gnu.org/licenses/>. */
+/**
+ * Plugin version and other meta-data are defined here.
+ *
+ * @package     accessibility_textalignment
+ * @copyright   2025 Ponlawat Weerapanpisit <ponlawat_w@outlook.co.th>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+#accessibility_textalignment-container .btn-group {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+}
+
+#accessibility_textalignment-container .btn-group > .btn {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+body.accessibility-textalignment-left p,
+body.accessibility-textalignment-left h1,
+body.accessibility-textalignment-left h2,
+body.accessibility-textalignment-left h3,
+body.accessibility-textalignment-left h4,
+body.accessibility-textalignment-left h5,
+body.accessibility-textalignment-left h6,
+body.accessibility-textalignment-left td,
+body.accessibility-textalignment-left th,
+body.accessibility-textalignment-left dt,
+body.accessibility-textalignment-left dd {
+    text-align: left;
+}
+
+body.accessibility-textalignment-center p,
+body.accessibility-textalignment-center h1,
+body.accessibility-textalignment-center h2,
+body.accessibility-textalignment-center h3,
+body.accessibility-textalignment-center h4,
+body.accessibility-textalignment-center h5,
+body.accessibility-textalignment-center h6,
+body.accessibility-textalignment-center td,
+body.accessibility-textalignment-center th,
+body.accessibility-textalignment-center dt,
+body.accessibility-textalignment-center dd {
+    text-align: center;
+}
+
+body.accessibility-textalignment-right p,
+body.accessibility-textalignment-right h1,
+body.accessibility-textalignment-right h2,
+body.accessibility-textalignment-right h3,
+body.accessibility-textalignment-right h4,
+body.accessibility-textalignment-right h5,
+body.accessibility-textalignment-right h6,
+body.accessibility-textalignment-right td,
+body.accessibility-textalignment-right th,
+body.accessibility-textalignment-right dt,
+body.accessibility-textalignment-right dd {
+    text-align: right;
+}
+
+body.accessibility-textalignment-justify p,
+body.accessibility-textalignment-justify h1,
+body.accessibility-textalignment-justify h2,
+body.accessibility-textalignment-justify h3,
+body.accessibility-textalignment-justify h4,
+body.accessibility-textalignment-justify h5,
+body.accessibility-textalignment-justify h6,
+body.accessibility-textalignment-justify td,
+body.accessibility-textalignment-justify th,
+body.accessibility-textalignment-justify dt,
+body.accessibility-textalignment-justify dd {
+    text-align: justify;
+}
