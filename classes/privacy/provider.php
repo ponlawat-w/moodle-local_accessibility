@@ -33,11 +33,11 @@ use core_privacy\local\request\writer;
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements
-    // This plugin has some sitewide user preferences to export.
-    core_userlist_provider,
     // This plugin has data.
     \core_privacy\local\metadata\provider,
-    \core_privacy\local\request\plugin\provider {
+    \core_privacy\local\request\plugin\provider,
+    // This plugin has some sitewide user preferences to export.
+    core_userlist_provider {
     /**
      * Get the list of contexts that contain user information for the specified user.
      *

@@ -72,6 +72,7 @@ final class userconfigs_test extends testcase {
      */
     public function test_guestconfig(): void {
         $this->resetAfterTest(true);
+        $this->setGuestUser();
 
         $widget = local_accessibility_getwidgetinstancebyname('fontsize');
 
@@ -82,5 +83,42 @@ final class userconfigs_test extends testcase {
 
         $this->setUser($this->getDataGenerator()->create_user());
         $this->assertNull($widget->getuserconfig());
+    }
+
+    /**
+     * Test that the configuration of the guest account is not shared between sessions
+     *
+     * The guest account is a real user record with a real id, so unless it is explicitly
+     * detected as a guest, its configuration is stored in the database like any other user
+     * and every guest visitor of the site ends up sharing (and overwriting) the same values.
+     *
+     * @covers ::local_accessibility_getwidgetinstancebyname
+     * @covers \local_accessibility\widgets::setuserconfig
+     * @covers \local_accessibility\widgets::getuserconfig
+     *
+     * @return void
+     */
+    public function test_guestconfig_notsharedbetweensessions(): void {
+        global $DB, $USER;
+
+        $this->resetAfterTest(true);
+
+        $widget = local_accessibility_getwidgetinstancebyname('fontsize');
+
+        // A visitor logged in with the guest account sets a configuration.
+        $this->setGuestUser();
+        $this->assertTrue(isguestuser());
+        $this->assertNull($widget->getuserconfig());
+        $widget->setuserconfig('1.5');
+        $this->assertEquals('1.5', $widget->getuserconfig());
+
+        $guestid = $USER->id;
+
+        // Another visitor logs in with the same guest account in a brand new session.
+        $this->setGuestUser();
+        $this->assertNull($widget->getuserconfig());
+
+        // The value must have been kept in the session, not in the database.
+        $this->assertFalse($DB->record_exists('local_accessibility_configs', ['userid' => $guestid]));
     }
 }

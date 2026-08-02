@@ -89,6 +89,12 @@ function xmldb_local_accessibility_upgrade($oldversion) {
         }
         upgrade_plugin_savepoint(true, 2023110101, 'local', 'accessibility');
     }
+    if ($oldversion < 2026080200) {
+        // Configurations of the guest account are now kept in the session,
+        // remove the records shared between all guest visitors left by the previous versions.
+        $DB->delete_records('local_accessibility_configs', ['userid' => $CFG->siteguest]);
+        upgrade_plugin_savepoint(true, 2026080200, 'local', 'accessibility');
+    }
 
     return true;
 }

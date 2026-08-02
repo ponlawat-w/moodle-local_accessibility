@@ -150,7 +150,7 @@ abstract class widgetbase {
         /** @var \moodle_database $DB */ $DB;
         /** @var stdClass $USER */ $USER;
 
-        if (!$USER || !$USER->id) {
+        if (!$USER || !$USER->id || isguestuser($USER)) {
             return $this->getguestconfig();
         }
 
@@ -169,7 +169,7 @@ abstract class widgetbase {
         /** @var \moodle_database $DB */ $DB;
         /** @var stdClass $USER */ $USER;
 
-        if (!$USER || !$USER->id) {
+        if (!$USER || !$USER->id || isguestuser($USER)) {
             return $this->setguestconfig($value);
         }
 
