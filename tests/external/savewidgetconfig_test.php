@@ -91,4 +91,45 @@ final class savewidgetconfig_test extends \advanced_testcase {
         $this->setUser($this->getDataGenerator()->create_user());
         $this->assertNull($widget->getuserconfig());
     }
+
+    /**
+     * Test that a configuration saved by the guest account via external API class is not shared between sessions
+     *
+     * The API does not require login, so it is reachable by any visitor logged in with the
+     * guest account. As the guest account is a real user record, its configuration must be
+     * stored in the session, otherwise all guest visitors share the same values.
+     *
+     * @runInSeparateProcess
+     * @runTestsInSeparateProcesses
+     * @covers \local_accessibility\external\savewidgetconfig::execute
+     * @covers \local_accessibility\widgets::getuserconfig
+     *
+     * @return void
+     */
+    public function test_savewidgetconfig_guest_notsharedbetweensessions(): void {
+        global $DB, $USER;
+
+        $this->resetAfterTest(true);
+
+        $widget = local_accessibility_getwidgetinstancebyname('fontsize');
+
+        // A visitor logged in with the guest account saves a configuration through the API.
+        $this->setGuestUser();
+        $this->assertTrue(isguestuser());
+        $this->assertNull($widget->getuserconfig());
+
+        $response = savewidgetconfig::execute('fontsize', '1.5');
+        $response = \core_external\external_api::clean_returnvalue(savewidgetconfig::execute_returns(), $response);
+        $this->assertTrue($response['success']);
+        $this->assertEquals('1.5', $widget->getuserconfig());
+
+        $guestid = $USER->id;
+
+        // Another visitor logs in with the same guest account in a brand new session.
+        $this->setGuestUser();
+        $this->assertNull($widget->getuserconfig());
+
+        // The value must have been kept in the session, not in the database.
+        $this->assertFalse($DB->record_exists('local_accessibility_configs', ['userid' => $guestid]));
+    }
 }
